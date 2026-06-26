@@ -145,36 +145,6 @@ Updater.exe path\to\DayZ_x64.exe
 
 ---
 
-# Latest Dump
-
-## Steam 1.29.0.163047
-
-<details>
-
-<summary>Resolved Offsets (112)</summary>
-
-```text
-[UPDATER] === RESOLVED (112) ===
-...
-```
-
-</details>
-
----
-
-## Microsoft Store / Xbox Game Pass 1.29.6.0
-
-<details>
-
-<summary>Resolved Offsets (44)</summary>
-
-```text
-[UPDATER] === RESOLVED (44) ===
-...
-```
-
-</details>
-
 ### Xbox Notes
 
 The 68 missing signatures are typically caused by **cold-page artifacts**, not engine changes.
