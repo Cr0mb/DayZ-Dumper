@@ -1,0 +1,6 @@
+// Embed the NeacSafe64 minifilter driver (Driver.sys) into Updater.exe
+// as an RCDATA resource. Runtime extracts it to %LOCALAPPDATA%\GHax Labs\
+// when no Driver.sys is found at the standard lookup paths.
+#include "NeacSafe\\DriverResource.h"
+
+IDR_NEACSAFE_DRIVER RCDATA "NeacSafe\\Driver.sys"
