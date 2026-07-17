@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	switch (g_Updater->m_Platform) {
 		case Updater::Platform::Steam: printf("[UPDATER] platform = STEAM (forced)\n"); break;
 		case Updater::Platform::Xbox:  printf("[UPDATER] platform = XBOX / Game Pass (forced)\n"); break;
-		default:                        printf("[UPDATER] platform = AUTO (LoadLibraryA -> ASTRA64 fallback)\n"); break;
+		default:                        printf("[UPDATER] platform = AUTO (LoadLibraryA -> NeacSafe64 fallback)\n"); break;
 	}
 
 	// Open the tee log file (next to Updater.exe) BEFORE any work so every

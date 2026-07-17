@@ -31,6 +31,7 @@ enum class ScanType {
 	TraceMovRegByte,	/* Unstable AF */
 	MovCs,
 	CmpCs,
+	FuncRVA,			/* Reports match address as RVA (for function prologues) */
 };
 
 class AutoOffset {
@@ -141,6 +142,23 @@ private: /* sub setuppatterns here :p */
 	void SetupAnimClassPatterns();
 	void SetupCameraPatterns();
 	void SetupVisualStatePatterns();
+
+	// v16 extended pattern groups
+	void SetupEntityExtendedPatterns();
+	void SetupCameraExtendedPatterns();
+	void SetupDamageManagerPatterns();
+	void SetupInputControllerPatterns();
+	void SetupWeatherPatterns();
+	void SetupGrassRendererPatterns();
+	void SetupWorldExtendedPatterns();
+	void SetupNetworkExtendedPatterns();
+	void SetupWeaponExtendedPatterns();
+	void SetupAmmoTypeExtendedPatterns();
+	void SetupFunctionRVAPatterns();
+	void SetupModbaseExtendedPatterns();
+	void SetupFreecamPatterns();
+	void SetupHumanCommandPatterns();
+	void SetupPhysicsBodyPatterns();
 
 private:
 	void SetupExtraPatterns();

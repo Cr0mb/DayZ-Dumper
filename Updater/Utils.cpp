@@ -121,11 +121,19 @@ UINT64 Utils::PatternScan(UINT64 Module, PBYTE Allocated, const char* Section, P
 
 	auto Info = IMAGE_FIRST_SECTION(Nt);
 
-	for (auto i = 0; i < Nt->FileHeader.NumberOfSections; i++, Info++) 
-		for (auto j = Info->VirtualAddress; j < Info->SizeOfRawData; j++) 
+	for (auto i = 0; i < Nt->FileHeader.NumberOfSections; i++, Info++) {
+		// Only scan requested section (or all if Section is nullptr/empty)
+		if (Section && Section[0] && strncmp((const char*)Info->Name, Section, 8) != 0)
+			continue;
+
+		// Fix: scan from VirtualAddress to VirtualAddress + VirtualSize
+		DWORD start = Info->VirtualAddress;
+		DWORD end = start + Info->Misc.VirtualSize;
+		for (auto j = start; j < end; j++)
 			if (DataCompare(Allocated + j, Pattern, Mask))
 				return Module + j;
-	
+	}
+
 	return NULL;
 }
 
