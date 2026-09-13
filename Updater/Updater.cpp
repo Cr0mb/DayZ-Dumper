@@ -280,9 +280,10 @@ bool Updater::DeallocateModule() {
 
 void Updater::SetupModbasePatterns() {
 	// Modbase::FOV_Context — FOV resolver context global (0x1008CE0 in 1.29).
-	// Updated 2026-07-15: test rax,rax; jz +0x31; mov rax,[rip+x]; lea r8,[rip+0x7D2F1B]
-	// The 4C 8D 05 1B 2F 7D 00 is a unique lea to a specific string/data
-	AUTO_OFFSET(Modbase, FOV_Context, "\x48\x85\xC0\x74\x31\x48\x8B\x05\x00\x00\x00\x00\x4C\x8D\x05\x1B\x2F\x7D\x00", "xxxxxxxx????xxxxxxx", ".text", ScanType::MovCs, 5);
+	// MANUAL: pattern "48 85 C0 74 31 48 8B 05 ?? ?? ?? ?? 4C 8D 05" has 150+ matches;
+	// the trailing lea r8 displacement changes between builds. No unique anchor found.
+	// Ghidra: search for FOV-related globals near 0x1008000 in the live build.
+	// DO NOT AUTO_OFFSET — keep as ADD_OFFSET_MANUAL in Offsets.h.
 	// Modbase::Network — removed, Modbase::NetworkManager already provides this
 	AUTO_OFFSET(Modbase, World,
 		"\x48\x8B\x05\x00\x00\x00\x00\x48\x8D\x54\x24\x00\x48\x8B\x48\x30",
@@ -712,10 +713,22 @@ void Updater::SetupCameraPatterns() {
 	// is found. The v15 cheat does not consume this sig — its camera offsets
 	// are resolved through a different path (Modbase::Landscape/ScopeFovCtx).
 	AUTO_OFFSET(Camera, ViewMatrix, "\xF3\x0F\x10\x40\x00\xF3\x0F\x10\x50\x00\xF3\x0F\x10\x58\x00", "xxxx?xxxx?xxxx?", ".text", ScanType::MovRegXmmByte, 0);
-	
+
+	// Camera::ProjectionD1 at +0xD0 — projection divisor for W2S.
+	// Community signature: "48 8B B7 D0 00 00 00 48 85 F6"
+	// mov rsi,[rdi+0xD0]; test rsi,rsi — unique load/null-check sequence.
+	AUTO_OFFSET(Camera, ProjectionD1, "\x48\x8B\xB7\xD0\x00\x00\x00\x48\x85\xF6", "xxxxxxxxxx", ".text", ScanType::MovReg, 0);
+
+	// Camera::ViewportSize at +0x58 — viewport dimensions (Vec2).
+	// Pattern from struct initialization site: mov [reg+0x58], reg; mov [reg+0x5C], reg
+	// Using consecutive stores to viewport width (0x58) and height (0x5C) as anchor.
+	// Note: Small offsets like 0x58 are common; this pattern may need refinement.
+	// For now, rely on hardcoded value in Offsets.h if this pattern fails.
+	// AUTO_OFFSET(Camera, ViewportSize, ...) — pattern too generic, keep hardcoded
+
 	// OUTDATED: Camera::ViewPortMatrix
 	// AUTO_OFFSET(Camera, ViewPortMatrix, "\xF3\x0F\x11\x4E\x00\x66\x0F\x6E\xC1", "xxxx?xxxx", ".text", ScanType::MovRegXmmByte, 0);
-	
+
 	// OUTDATED: Camera::ViewProjection
 	// AUTO_OFFSET(Camera, ViewProjection, "\x0F\x11\x86\x00\x00\x00\x00\x0F\x10\x44\x24\x00\x0F\x11\x86\x00\x00\x00\x00\x0F\x10\x44\x24\x00\x0F\x11\x86\x00\x00\x00\x00\x48\x8B\x06", "xxx????xxxx?xxx????xxxx?xxx????xxx", ".text", ScanType::MovRegByte, 0);
 
@@ -787,6 +800,15 @@ void Updater::SetupEntityExtendedPatterns() {
 		"\x40\x53\x48\x83\xEC\x20\x0F\xBE\x00\x00\x00\x00\x00\x48\x8B\xD9\x83\xEA\x01",
 		"xxxxxxxx?????xxxxxx",
 		".text", ScanType::MovReg, 6);
+
+	// Entity::isHandItemValid at +0x1CC — hand item validity flag.
+	// Updated 2026-09-13: Ghidra analysis found unique pattern at RVA 0x1B36BA:
+	//   mov edx,[rcx+0x1CC]; lea r8,[rsp+0x38]; mov rbx,rcx; mov ...
+	// The consecutive load + lea + mov rbx provides unique anchoring.
+	AUTO_OFFSET(Entity, isHandItemValid,
+		"\x8B\x91\xCC\x01\x00\x00\x4C\x8D\x44\x24\x38\x48\x8B\xD9\x48\x8B",
+		"xxxxxxxxxxxxxxxx",
+		".text", ScanType::MovRegSml, 0);
 
 	// REMOVED: Entity::Parent (+0x88), Entity::ModelName (+0x78) —
 	// patterns match wrong instruction sites.
@@ -1477,10 +1499,12 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func8 — RVA 0xAC540
+	// Net_Func8 — RVA 0xAC540 (updated 2026-09-13)
+	// Prologue: push rbx; sub rsp,20; mov rbx,rcx; lea rax,[rip+disp32]; ...
+	// Wildcard the LEA displacement at bytes 12-15.
 	AUTO_OFFSET(Functions, Net_Func8,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\x48\x8D\x05\xC0\xFD\xB5\x00",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\x48\x8D\x05\x00\x00\x00\x00",
+		"xxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
 	// Net_Func9 — RVA 0xAC5F0
@@ -1654,12 +1678,12 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// DayZPlayer_GetName — RVA 0x4E5130 (updated 2026-07-16 for 1.29)
-	// Entry: lea rax,[rip+0x7A2301]; ret; (int3 pad)
-	// Hardcoded displacement to "DayZPlayer" string.
+	// DayZPlayer_GetName — RVA 0x4E5130 (updated 2026-09-13 for 1.29)
+	// Entry: lea rax,[rip+disp32]; ret; (int3 pad)
+	// Returns pointer to "DayZPlayer" string. Wildcard the LEA displacement.
 	AUTO_OFFSET(Functions, DayZPlayer_GetName,
-		"\x48\x8D\x05\x01\x23\x7A\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8D\x05\x00\x00\x00\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
+		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// DayZPlayer_Update1 — RVA 0x4E5670
@@ -1689,12 +1713,12 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// DayZInfected_GetName — RVA 0x4AC380 (updated 2026-07-16 for 1.29)
-	// Entry: lea rax,[rip+0x7D0B49]; ret; (int3 pad)
-	// Returns pointer to string "DayZInfected". 16B unique.
+	// DayZInfected_GetName — RVA 0x4AC380 (updated 2026-09-13 for 1.29)
+	// Entry: lea rax,[rip+disp32]; ret; (int3 pad)
+	// Returns pointer to "DayZInfected" string. Wildcard the LEA displacement.
 	AUTO_OFFSET(Functions, DayZInfected_GetName,
-		"\x48\x8D\x05\x49\x0B\x7D\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8D\x05\x00\x00\x00\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
+		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// DayZInfected_Update — RVA 0x4AC490 (updated 2026-07-16 for 1.29)
@@ -1714,20 +1738,21 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// InputController_GetName — RVA 0x518E00 (updated 2026-07-16 for 1.29)
-	// Entry: lea rax,[rip+0x777899]; ret; (int3 pad)
-	// Returns pointer to string "HumanInputController". 16B unique.
+	// InputController_GetName — RVA 0x518E00 (updated 2026-09-13 for 1.29)
+	// Entry: lea rax,[rip+disp32]; ret; (int3 pad)
+	// Returns pointer to "HumanInputController" string. Wildcard the LEA displacement.
 	AUTO_OFFSET(Functions, InputController_GetName,
-		"\x48\x8D\x05\x99\x78\x77\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8D\x05\x00\x00\x00\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
+		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// InputController_Method — RVA 0x518E10 (updated 2026-07-16 for 1.29)
+	// InputController_Method — RVA 0x518E10 (updated 2026-09-13 for 1.29)
 	// Prologue: mov [rsp+8],rbx; mov [rsp+10],rsi; push rdi; sub rsp,30;
-	//           mov rbx,[rdx+10]; mov rdi,rdx; mov rcx,rbx; lea rdx,[rip+0x777888]; ...
+	//           mov rbx,[rdx+10]; mov rdi,rdx; mov rcx,rbx; lea rdx,[rip+disp32]; ...
+	// Wildcard the lea rdx displacement at bytes 28-31.
 	AUTO_OFFSET(Functions, InputController_Method,
-		"\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\x5A\x10\x48\x8B\xFA\x48\x8B\xCB\x48\x8D\x15\x88\x78\x77\x00",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\x5A\x10\x48\x8B\xFA\x48\x8B\xCB\x48\x8D\x15\x00\x00\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
 	// Camera_Func — RVA 0x4B6B00 (updated 2026-07-16 for 1.29)
@@ -1739,11 +1764,12 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxx????xxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Inventory_GetName — RVA 0x542460 (updated 2026-07-16 for 1.29)
-	// Entry: lea rax,[rip+0x755F09]; ret; (int3 pad)
+	// Inventory_GetName — RVA 0x542460 (updated 2026-09-13 for 1.29)
+	// Entry: lea rax,[rip+disp32]; ret; (int3 pad)
+	// Returns pointer to "GameInventory" string. Wildcard the LEA displacement.
 	AUTO_OFFSET(Functions, Inventory_GetName,
-		"\x48\x8D\x05\x09\x5F\x75\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8D\x05\x00\x00\x00\x00\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC",
+		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Material_Func1 — RVA 0x2805BB (1.29)
@@ -2150,10 +2176,14 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// OVS_Func4 — RVA 0x7F2DE0 (func size 7558 bytes)
+	// OVS_Func4 — RVA 0x7F2DE0 (updated 2026-09-13)
+	// Prologue: mov [rsp+8],rbx; push rdi; sub rsp,20; mov rax,[rcx];
+	//           mov rbx,rdx; mov rcx,[rax]; mov rdi,[rcx]; test rdi,rdi;
+	//           jz +0x29; mov rcx,[rdx]; call ...
+	// Wildcard the call displacement at bytes 30-31 and add a longer anchor.
 	AUTO_OFFSET(Functions, OVS_Func4,
-		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\x01\x48\x8B\xDA\x48\x8B\x08\x48\x8B\x39\x48\x85\xFF\x74\x29\x48\x8B\x0A\xE8\x5D",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\x01\x48\x8B\xDA\x48\x8B\x08\x48\x8B\x39\x48\x85\xFF\x74\x29\x48\x8B\x0A\xE8\x00",
+		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?",
 		".text", ScanType::FuncRVA, 0);
 
 	// OVS_Func5 — RVA 0x7FF9F0 (func size 9999 bytes)
@@ -2412,10 +2442,22 @@ void Updater::SetupExtraPatterns() {
 	AUTO_OFFSET(World, EyeAccom, "\xF3\x0F\x10\x80\x00\x00\x00\x00\x0F\xC6\xC0\x00\xC7\x45\x48\x00", "xxxx????xxxxxxxx", ".text", ScanType::MovRegXmm, 0);
 	// Updated 2026-07-15: Fixed mask - need 6 wildcards for offset+immediate
 	AUTO_OFFSET(Ammo, FuseDistance, "\x66\xC7\x83\x00\x00\x00\x00\x00\x00\x48\x8B\x05\x00\x00\x00\x00", "xxx??????xxx????", ".text", ScanType::MovReg, 0);
-	// Animation::MatrixArray at +0xBE8 — matrix array pointer store.
-	// Pattern: mov [rax+disp32], rax followed by mov rax,[rax]
-	// Wildcarded offset to match any matrix array access.
-	AUTO_OFFSET(Animation, MatrixArray, "\x4C\x89\x80\x00\x00\x00\x00\x48\x8B\x01", "xx????xxx", ".text", ScanType::MovReg, 0);
+	// Animation::MatrixArray at +0xBE8 — bone matrix array pointer store.
+	// Updated 2026-09-13: Ghidra analysis found unique pattern at RVA 0x4CCAC3:
+	//   mov [rcx+0xBE8], esi; mov [rcx+0xBF8], r14; mov dword [rcx+0x08], ...
+	// The consecutive stores to 0xBE8, 0xBF8, and 0x08 provide unique anchoring.
+	AUTO_OFFSET(Animation, MatrixArray, "\x89\xB1\x00\x00\x00\x00\x4C\x89\xB1\xF8\x0B\x00\x00\xC7\x81\x08", "xx????xxxxxxxxxx", ".text", ScanType::MovRegSml, 0);
+
+	// Animation::AnimationComp at +0x118 — skeleton->anim class pointer.
+	// Updated 2026-09-13: Ghidra analysis found unique pattern at RVA 0x5FB29:
+	//   mov [rbx+0x118], edi; mov [rbx+0x120], edi; mov [rbx+0x128], rdi
+	// Matches community signature "48 89 BB 18 01 00 00 89 BB 20 01 00 00".
+	AUTO_OFFSET(Animation, AnimationComp, "\x89\xBB\x18\x01\x00\x00\x89\xBB\x20\x01\x00\x00\x48\x89\xBB\x28", "xxxxxxxxxxxxxxxx", ".text", ScanType::MovRegSml, 0);
+
+	// Animation::MatrixB at +0x54 — bone offset within matrix entry.
+	// Community signature: "8B 43 54 8B 53 50 4C 8B 73 48" (mov eax,[rbx+0x54]; mov edx,[rbx+0x50]; mov r14,[rbx+0x48])
+	// The disp8 is at byte 2 of the instruction (8B 43 [54]). MovRegByteSml reads *(BYTE*)(Instruction+2).
+	AUTO_OFFSET(Animation, MatrixB, "\x8B\x43\x54\x8B\x53\x50\x4C\x8B\x73\x48", "xxxxxxxxxx", ".text", ScanType::MovRegByteSml, 0);
 	AUTO_OFFSET(World, FarTableSize, "\x48\x89\xB7\x00\x00\x00\x00\x48\x89\xB7\xB8\x10\x00\x00\x48\x89", "xxx????xxxxxxxxx", ".text", ScanType::MovReg, 0);
 	AUTO_OFFSET(Ammo, MagazineCapacityB, "\x44\x3B\x82\x00\x00\x00\x00\x0F\x83\xF5\x03\x00\x00\x41\x8B\xD0", "xxx????xxxxxxxxx", ".text", ScanType::MovReg, 0);
 	// NOTE: This pattern has hardcoded call offset. Using the working BulletList pattern instead.

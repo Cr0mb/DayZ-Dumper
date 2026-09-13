@@ -62,14 +62,14 @@ namespace Offsets {
 	// once a stable code-shape pattern is found.
 
 /* PlayerIdentity Offsets */
-	// Re-enabled 2026-06-04: NetworkManager is at ImageBase+0x100FC10. 
+	// Re-enabled 2026-06-04: NetworkManager is at ImageBase+0x100FC10.
 	// With the root pointer corrected the inner
 	// identity layout (NetID/SteamID/PlayerName) is unchanged and can be
 	// re-sig-scanned. The existing SetupPlayerIdentityPatterns + Network
 	// patterns drive these via SIG.
 	ADD_OFFSET(PlayerIdentity, Name);
-	// ADD_OFFSET(PlayerIdentity, SteamID);   // no sig wired yet
-	// ADD_OFFSET(PlayerIdentity, NetworkID); // no sig wired yet
+	ADD_OFFSET_MANUAL(PlayerIdentity, SteamID, 0xA0);	// 0xA0 — SteamID Enfusion string in identity record
+	ADD_OFFSET_MANUAL(PlayerIdentity, NetworkID, 0x30);	// 0x30 — NetworkID in ScoreboardIdentity
 
 /* World Offsets */
 	ADD_OFFSET(World, BulletList);						// DONE
@@ -163,11 +163,14 @@ namespace Offsets {
 	// ADD_OFFSET(Camera, ViewProjection);					// OUTDATED
 
 /* VisualState Offsets */
-	ADD_OFFSET(VisualState, Transform);					// DONE
-	ADD_OFFSET(VisualState, InverseTransform);			// DONE
-	ADD_OFFSET(VisualState, Velocity);					// NEW v16 — 0x54
-	ADD_OFFSET(VisualState, Direction);					// NEW v16 — 0x20
-	ADD_OFFSET(Modbase, FOV_Context);
+	ADD_OFFSET(VisualState, Transform);					// DONE (sig-scanned)
+	ADD_OFFSET(VisualState, InverseTransform);			// DONE (sig-scanned)
+	ADD_OFFSET_MANUAL(VisualState, Velocity, 0x54);		// NEW v16 — 0x54
+	ADD_OFFSET_MANUAL(VisualState, Direction, 0x20);	// NEW v16 — 0x20
+	ADD_OFFSET_MANUAL(VisualState, Position, 0x2C);		// 0x2C — world position (same as Transform[9..11])
+	ADD_OFFSET_MANUAL(VisualState, DirX, 0x20);			// 0x20 — direction X component
+	ADD_OFFSET_MANUAL(VisualState, DirY, 0x28);			// 0x28 — direction Y component
+	ADD_OFFSET_MANUAL(Modbase, FOV_Context, 0x1008CE0);	// MANUAL — no unique sig (150+ matches)
 	ADD_OFFSET(Network, ServerName);
 	ADD_OFFSET(Network, Ping);
 	ADD_OFFSET(Network, GameVersion);
@@ -198,13 +201,14 @@ namespace Offsets {
 	ADD_OFFSET(Network, Crosshair);
 
 /* Network Extended — NEW v16 */
-	ADD_OFFSET(Network, ScoreboardTable);				// 0x18 — IdentityRecord*[] from NetworkClient
-	ADD_OFFSET(Network, ScoreboardSize);				// 0x24 — player count from NetworkClient
-	ADD_OFFSET(Network, MissionHeaderPtr);				// 0x28 — MissionHeader* from NetworkClient
-	ADD_OFFSET(Network, IdentitySize);					// 0x170 — sizeof(IdentityRecord)
-	ADD_OFFSET(Network, SteamID);						// 0xA0 — Enfusion string in identity record
-	ADD_OFFSET(Network, ThirdPersonFlag);				// 0x9C — inverted bool at NetworkClient
-	ADD_OFFSET(Network, CrosshairFlag);					// 0xA0 — inverted bool at NetworkClient
+	ADD_OFFSET_MANUAL(Network, ScoreboardTable, 0x18);	// 0x18 — IdentityRecord*[] from NetworkClient
+	ADD_OFFSET(Network, ScoreboardSize);				// 0x24 — player count from NetworkClient (sig-scanned)
+	ADD_OFFSET_MANUAL(Network, MissionHeaderPtr, 0x28);	// 0x28 — MissionHeader* from NetworkClient
+	ADD_OFFSET_MANUAL(Network, IdentitySize, 0x170);	// 0x170 — sizeof(IdentityRecord)
+	ADD_OFFSET_MANUAL(Network, SteamID, 0xA0);			// 0xA0 — Enfusion string in identity record
+	ADD_OFFSET(Network, ThirdPersonFlag);				// 0x9C — inverted bool at NetworkClient (sig-scanned)
+	ADD_OFFSET_MANUAL(Network, CrosshairFlag, 0xA0);	// 0xA0 — inverted bool at NetworkClient
+	ADD_OFFSET_MANUAL(Network, PlayerCount, 0x20);		// 0x20 — player count (adjacent to scoreboard table)
 
 /* Weapon Auto-Extracted */
 	ADD_OFFSET(Weapon, ChamberArray);
@@ -220,24 +224,28 @@ namespace Offsets {
 /* Camera Auto-Extracted */
 	ADD_OFFSET(Camera, ProjectionD2);
 	ADD_OFFSET(Camera, Base);
-	ADD_OFFSET(Camera, ViewportSize);
+	ADD_OFFSET_MANUAL(Camera, ViewportSize, 0x58);		// 0x58 — viewport size (x=width, y=height)
 
 /* Camera Extended — NEW v16 */
-	ADD_OFFSET(Camera, Position);						// 0x2C — camera world position (Vec3)
-	ADD_OFFSET(Camera, ViewRight);						// 0x08 — right basis vector (Vec3)
-	ADD_OFFSET(Camera, ViewUp);							// 0x14 — up basis vector (Vec3)
-	ADD_OFFSET(Camera, ViewForward);					// 0x20 — forward basis vector (Vec3)
-	ADD_OFFSET(Camera, ProjectionD1);					// 0xD0 — projection divisor 1
-	ADD_OFFSET(Camera, StateFlags);						// 0x1A8 — freecam state flags
-	ADD_OFFSET(Camera, UpdateInterval);					// 0x1C0 — camera update interval
-	ADD_OFFSET(Camera, AspectRatio);					// 0x6C — viewport aspect ratio
-	ADD_OFFSET(Camera, FOV_TermA);						// 0x4C — FOV calculation term A
-	ADD_OFFSET(Camera, FOV_TermB);						// 0x50 — FOV calculation term B
+	ADD_OFFSET_MANUAL(Camera, Position, 0x2C);			// 0x2C — camera world position (Vec3)
+	ADD_OFFSET_MANUAL(Camera, ViewRight, 0x08);			// 0x08 — right basis vector (Vec3)
+	ADD_OFFSET_MANUAL(Camera, ViewUp, 0x14);			// 0x14 — up basis vector (Vec3)
+	ADD_OFFSET_MANUAL(Camera, ViewForward, 0x20);		// 0x20 — forward basis vector (Vec3)
+	ADD_OFFSET(Camera, ProjectionD1);					// 0xD0 — projection divisor 1 (sig-scanned)
+	ADD_OFFSET_MANUAL(Camera, StateFlags, 0x1A8);		// 0x1A8 — freecam state flags
+	ADD_OFFSET_MANUAL(Camera, UpdateInterval, 0x1C0);	// 0x1C0 — camera update interval
+	ADD_OFFSET_MANUAL(Camera, AspectRatio, 0x6C);		// 0x6C — viewport aspect ratio
+	ADD_OFFSET_MANUAL(Camera, FOV_TermA, 0x4C);			// 0x4C — FOV calculation term A
+	ADD_OFFSET_MANUAL(Camera, FOV_TermB, 0x50);			// 0x50 — FOV calculation term B
+	ADD_OFFSET_MANUAL(Camera, InvertedViewRight, 0x8);	// 0x8 — inverted view right (same as transform)
+	ADD_OFFSET_MANUAL(Camera, InvertedViewUp, 0x14);	// 0x14 — inverted view up
+	ADD_OFFSET_MANUAL(Camera, InvertedViewForward, 0x20);	// 0x20 — inverted view forward
+	ADD_OFFSET_MANUAL(Camera, InvertedViewTranslation, 0x2C);	// 0x2C — inverted view translation
 
-/* Animation Auto-Extracted */
-	ADD_OFFSET(Animation, MatrixArray);
-	ADD_OFFSET(Animation, MatrixB);
-	ADD_OFFSET(Animation, AnimationComp);
+/* Animation Auto-Extracted — Updated 2026-09-13 with Ghidra-mined patterns */
+	ADD_OFFSET(Animation, MatrixArray);					// 0xBE8 — bone matrix array (sig-scanned)
+	ADD_OFFSET(Animation, MatrixB);						// 0x54 — bone offset within matrix entry (sig-scanned)
+	ADD_OFFSET(Animation, AnimationComp);				// 0x118 — AnimClass (skeleton -> anim, sig-scanned)
 
 /* Object_layout Auto-Extracted */
 	ADD_OFFSET(Object_layout, MaterialArray);
@@ -254,7 +262,7 @@ namespace Offsets {
 	ADD_OFFSET(Inventory, ItemQuality);
 	ADD_OFFSET(Inventory, Hands);
 	ADD_OFFSET(Inventory, NestedCargo);
-	ADD_OFFSET(Inventory, NestedCargoCount);
+	ADD_OFFSET_MANUAL(Inventory, NestedCargoCount, 0x44);	// 0x44 — nested cargo item count
 
 /* Entity Auto-Extracted */
 	ADD_OFFSET(Entity, IsDead);
@@ -265,12 +273,13 @@ namespace Offsets {
 	ADD_OFFSET(Entity, VisualState);
 
 /* Entity Extended — NEW v16 */
-	ADD_OFFSET(Entity, Parent);							// 0x88 — parent entity ptr
-	ADD_OFFSET(Entity, Owner);							// 0xA0 — owning entity ptr
-	ADD_OFFSET(Entity, ModelName);						// 0x78 — Enfusion string (model path / validity)
-	ADD_OFFSET(Entity, Stamina);						// 0x6A4 — stamina float
-	ADD_OFFSET(Entity, SprintFlag);						// 0x3AD — byte, sprinting state
-	ADD_OFFSET(Entity, SortObject);						// 0x228 — spatial cell pointer
+	ADD_OFFSET_MANUAL(Entity, Parent, 0x88);			// 0x88 — parent entity ptr
+	ADD_OFFSET(Entity, Owner);							// 0xA0 — owning entity ptr (sig-scanned)
+	ADD_OFFSET_MANUAL(Entity, ModelName, 0x78);			// 0x78 — Enfusion string (model path / validity)
+	ADD_OFFSET(Entity, Stamina);						// 0x6A4 — stamina float (sig-scanned)
+	ADD_OFFSET(Entity, SprintFlag);						// 0x3AD — byte, sprinting state (sig-scanned)
+	ADD_OFFSET(Entity, SortObject);						// 0x228 — spatial cell pointer (sig-scanned)
+	ADD_OFFSET(Entity, isHandItemValid);				// 0x1CC — hand item validity flag (sig-scanned)
 
 /* HumanType Auto-Extracted */
 	ADD_OFFSET(HumanType, Realclassname);
