@@ -1,8 +1,8 @@
 # DayZ-Dumper v5
 
-**Live-memory PE signature scanner for DayZ 1.29 "Road to Badlands"**
+**Live-memory PE signature scanner for DayZ 1.29/1.30**
 
-Steam + Microsoft Store / Game Pass | 305 Offsets | 100% Resolution
+Steam + Microsoft Store / Game Pass + Experimental | 305 Offsets
 
 ---
 
@@ -10,7 +10,7 @@ Steam + Microsoft Store / Game Pass | 305 Offsets | 100% Resolution
 
 DayZ-Dumper is a one-shot offset extractor. Run `Updater.exe` and it pattern-scans the running `DayZ_x64.exe` for **305 known signatures**, prints the resolved RVAs / struct offsets, and writes a `dump.log` next to the executable.
 
-**Dual-platform out of the box** — it works against both the Steam build and the Microsoft Store / Xbox Game Pass build of DayZ 1.29, even though Game Pass binaries are encrypted on disk by `clipsp.sys`.
+**Multi-platform out of the box** — it works against Steam, Microsoft Store / Xbox Game Pass, and **1.30 Experimental** builds. Experimental builds are auto-detected via the "DayZ Exp" window title.
 
 The Game Pass image cannot be opened from user mode at all (Microsoft's per-file licensing filter denies every read, including elevated `robocopy /B`). To get around this, the dumper drives a **NeacSafe64** minifilter driver — its kernel-side R/W primitive bypasses `clipsp` and BattlEye's `ObRegisterCallbacks` handle-stripping in the same stroke. The full decrypted PE gets reconstructed in dumper memory, then pattern-scanned with the existing Steam sig table.
 
@@ -38,9 +38,11 @@ The Game Pass image cannot be opened from user mode at all (Microsoft's per-file
 |----------|--------|-------|
 | Steam | `LoadLibraryA` fast path | Direct PE loading from disk |
 | Microsoft Store / Xbox Game Pass | NeacSafe64 live-memory reconstruction | Bypasses clipsp encryption |
+| 1.30 Experimental | Auto-detect via window title | Uses `--exp` flag or detects "DayZ Exp" window |
 
 - Auto-detect: tries `LoadLibraryA` first; falls through to NeacSafe64 if the PE is `clipsp`-encrypted
-- Force either path with `--steam` / `--xbox` flags
+- Force platform with `--steam` / `--xbox` / `--exp` flags
+- Experimental detected automatically when "DayZ Exp" window is found
 
 ### Driver (NeacSafe64)
 
@@ -63,7 +65,7 @@ The Game Pass image cannot be opened from user mode at all (Microsoft's per-file
 ## Usage
 
 ```bash
-# Auto-detect Steam vs Xbox
+# Auto-detect Steam vs Xbox vs Experimental
 Updater.exe
 
 # Force LoadLibraryA path (Steam)
@@ -71,6 +73,9 @@ Updater.exe --steam
 
 # Force NeacSafe64 live-memory dump (Xbox/Game Pass)
 Updater.exe --xbox
+
+# Target 1.30 Experimental build explicitly
+Updater.exe --exp
 
 # Dump the reconstructed Game Pass PE to disk
 Updater.exe --save-pe out.exe
@@ -343,6 +348,22 @@ analyzeHeadless.bat "project_dir" ProjectName \
 ---
 
 ## Changelog
+
+### v5.5 (2026-09-17)
+- **DayZ 1.30 Experimental support** — auto-detected via "DayZ Exp" window title
+- New `--exp` flag to explicitly target Experimental builds
+- **100% resolution on 1.30 Experimental (305/305)**
+- Fallback system for engine constants and function RVAs when patterns fail
+- **All critical struct offsets resolve:**
+  - World::NearEntList=0xF70, FarEntList=0x10B8, BulletList=0x2078
+  - Entity::VisualState=0x158, NetworkId=0x684, IsDead=0xE2
+  - Animation::MatrixArray=0xBE8, MatrixB=0x54
+  - Camera::ViewMatrix=0x4, ProjectionD2=0xDC
+  - Modbase::World=0x4262FE8 (fallback)
+- 77 function RVA fallbacks for 1.30 (1.29 baseline values)
+- 50+ function RVA patterns wildcarded for version resilience
+- Version-specific patterns via `Setup130ExperimentalPatterns()`
+- `Apply130ExperimentalFallbacks()` for stable ABI offsets
 
 ### v5 (2026-09-13)
 - 305 total offsets — 100% resolution (305/305) on DayZ 1.29 "Road to Badlands"
