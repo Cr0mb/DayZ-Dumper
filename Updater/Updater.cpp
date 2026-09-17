@@ -971,13 +971,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// GetObjectMaterial — RVA 0x4737A0
-	// Prologue: test edx,edx; jae +0x31; cmp [rcx+0x560],edx;
-	//           jae +0x29; mov rax,[rcx+0x558]; movsxd rdx,edx; ...
-	// 16-byte prologue is unique in .text.
+	// GetObjectMaterial — RVA 0x4737A0 (updated 2026-09-17 for 1.30)
+	// Wildcard the cmp displacement and jge offset
 	AUTO_OFFSET(Functions, GetObjectMaterial,
-		"\x85\xD2\x78\x31\x3B\x91\x60\x05\x00\x00\x7D\x29\x48\x8B\x81\x58",
-		"xxxxxxxxxxxxxxxx",
+		"\x85\xD2\x78\x00\x3B\x91\x00\x00\x00\x00\x7D\x00\x48\x8B\x81\x00",
+		"xxx?xx????x?xxx?",
 		".text", ScanType::FuncRVA, 0);
 
 	// LoadMaterial — RVA 0x969A90
@@ -1087,13 +1085,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// DirtyInvalidateHelper1 — RVA 0x465D70
-	// Prologue: push rdi; sub rsp,0x20; inc dword [rcx+8]; mov rdi,rcx;
-	//           mov rax,[rcx]; mov rcx,[rax+8]; test rcx,rcx; ...
-	// 16-byte pattern is unique in .text.
+	// DirtyInvalidateHelper1 — RVA 0x465D70 (updated 2026-09-17 for 1.30)
+	// Wildcard the inc displacement at bytes 7-8
 	AUTO_OFFSET(Functions, DirtyInvalidateHelper1,
-		"\x40\x57\x48\x83\xEC\x20\xFF\x41\x08\x48\x8B\xF9\x48\x8B\x01\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x57\x48\x83\xEC\x20\xFF\x41\x00\x48\x8B\xF9\x48\x8B\x01\x48",
+		"xxxxxxxx?xxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// DirtyInvalidateHelper2 — RVA 0x45B0F0
@@ -1114,13 +1110,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// DirtyInvalidateHelper4 — RVA 0x46B280
-	// Prologue: mov [rsp+0x18],rsi; push rdi; sub rsp,0x20; mov rsi,rcx;
-	//           mov ecx,[rcx+8]; inc ecx; mov rax,[rdx]; ...
-	// 16-byte pattern is unique in .text.
+	// DirtyInvalidateHelper4 — RVA 0x46B280 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov ecx,[rcx+X] displacement at bytes 15-16
 	AUTO_OFFSET(Functions, DirtyInvalidateHelper4,
-		"\x48\x89\x74\x24\x18\x57\x48\x83\xEC\x20\x48\x8B\xF1\x8B\x49\x08",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x74\x24\x18\x57\x48\x83\xEC\x20\x48\x8B\xF1\x8B\x49\x00",
+		"xxxxxxxxxxxxxxx?",
 		".text", ScanType::FuncRVA, 0);
 
 	// RefcountDecHelper — RVA 0x08B0C0
@@ -1331,10 +1325,11 @@ void Updater::SetupFunctionRVAPatterns() {
 	// === 2026-07-13: Scanner7 function RVAs ===
 	// All patterns are 16-byte prologues with all-locked masks.
 
-	// HealthCalc_1 — RVA 0x962C0 (updated 2026-07-16 for 1.29)
+	// HealthCalc_1 — RVA 0x962C0 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 10-13
 	AUTO_OFFSET(Functions, HealthCalc_1,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\xD2\xF2\x27\x00\x48\x8D",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x00\x00\x00\x00\x48\x8D",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
 	// BloodMax_Func — RVA 0x10EC80 (5000.0 float = max blood)
@@ -1343,10 +1338,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// HealthCalc_2 — RVA 0x1B9A10 (100.0 float func)
+	// HealthCalc_2 — RVA 0x1B9A10 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov displacement at bytes 9-12
 	AUTO_OFFSET(Functions, HealthCalc_2,
-		"\x40\x53\x48\x83\xEC\x30\x4C\x8B\x81\x10\x0A\x00\x00\x48\x8D\x91",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x30\x4C\x8B\x81\x00\x00\x00\x00\x48\x8D\x91",
+		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Script_Func1 — RVA 0x31C290 (1.29 script-related)
@@ -1373,10 +1369,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// HealthCalc_4 — RVA 0x3898D0 (100.0 float func)
+	// HealthCalc_4 — RVA 0x3898D0 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 10-13
 	AUTO_OFFSET(Functions, HealthCalc_4,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\xC2\xE5\xFE\xFF\x48\x8D",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x00\x00\x00\x00\x48\x8D",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
 	// HealthCalc_5 — pattern too generic, wildcard call offset
@@ -1399,22 +1396,25 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// InfectedHelper1 — RVA 0x4AC120 (DayZInfected helper)
+	// InfectedHelper1 — RVA 0x4AC120 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 9-12
 	AUTO_OFFSET(Functions, InfectedHelper1,
-		"\x48\x83\xEC\x28\x48\x8B\x49\x20\xE8\xA3\x4C\xFE\xFF\x66\x83\xF8",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x83\xEC\x28\x48\x8B\x49\x20\xE8\x00\x00\x00\x00\x66\x83\xF8",
+		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// InfectedHelper2 — RVA 0x4AC150 (DayZInfected helper)
+	// InfectedHelper2 — RVA 0x4AC150 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 9-12
 	AUTO_OFFSET(Functions, InfectedHelper2,
-		"\x48\x83\xEC\x28\x48\x8B\x49\x20\xE8\xA3\x2D\xFE\xFF\x66\x83\xF8",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x83\xEC\x28\x48\x8B\x49\x20\xE8\x00\x00\x00\x00\x66\x83\xF8",
+		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Unknown_Func1 — RVA 0x73F090 (unknown)
+	// Unknown_Func1 — RVA 0x73F090 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 13-16
 	AUTO_OFFSET(Functions, Unknown_Func1,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xDA\x41\x8B\xD0\xE8\x5F\xFF\xFF",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xDA\x41\x8B\xD0\xE8\x00\x00\x00",
+		"xxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
 	// HealthCalc_8 — RVA 0x780750 (updated 2026-07-16 for 1.29)
@@ -1424,10 +1424,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
-	// HealthCalc_9 — RVA 0x79C120 (100.0 float func)
+	// HealthCalc_9 — RVA 0x79C120 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 11-14
 	AUTO_OFFSET(Functions, HealthCalc_9,
-		"\x40\x55\x53\x56\x57\x41\x57\x48\x8D\xAC\x24\xA0\xFE\xFF\xFF\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x53\x56\x57\x41\x57\x48\x8D\xAC\x24\x00\x00\x00\x00\x48",
+		"xxxxxxxxxxx????x",
 		".text", ScanType::FuncRVA, 0);
 
 	// HealthCalc_10 — RVA 0x7A08D0 (updated 2026-07-16 for 1.29)
@@ -1457,43 +1458,50 @@ void Updater::SetupFunctionRVAPatterns() {
 
 	// === Network functions (0xAB040-0xACCD0) ===
 
-	// Net_Func1 — RVA 0xAB040
+	// Net_Func1 — RVA 0xAB040 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 10-13
 	AUTO_OFFSET(Functions, Net_Func1,
-		"\x48\x89\x4C\x24\x08\x55\x48\x8D\xAC\x24\xD0\xFE\xFF\xFF\x48\x81",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x4C\x24\x08\x55\x48\x8D\xAC\x24\x00\x00\x00\x00\x48\x81",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func2 — RVA 0xABEC0
+	// Net_Func2 — RVA 0xABEC0 (updated 2026-09-17 for 1.30)
+	// Wildcard the jz displacement at bytes 15-16
 	AUTO_OFFSET(Functions, Net_Func2,
 		"\x40\x56\x48\x83\xEC\x30\x48\x8B\x01\x48\x8B\xF1\x48\x85\xC0\x0F",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func3 — RVA 0xABF70
+	// Net_Func3 — RVA 0xABF70 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Net_Func3,
 		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\x48\x8B\x49\x20\x48\x8B\x01",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func4 — RVA 0xABFC0
+	// Net_Func4 — RVA 0xABFC0 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Net_Func4,
 		"\x48\x89\x74\x24\x18\x57\x48\x83\xEC\x20\x44\x8B\x51\x08\x4C\x8B",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func5 — RVA 0xAC200
+	// Net_Func5 — RVA 0xAC200 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Net_Func5,
 		"\x48\x89\x5C\x24\x18\x55\x56\x57\x48\x83\xEC\x50\x48\x8B\x3A\x48",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func6 — RVA 0xAC2B0
+	// Net_Func6 — RVA 0xAC2B0 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Net_Func6,
 		"\x40\x53\x48\x83\xEC\x30\x4C\x8B\x12\x48\x8D\x41\x58\x4C\x8B\xDA",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func7 — RVA 0xAC340
+	// Net_Func7 — RVA 0xAC340 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Net_Func7,
 		"\x40\x53\x56\x57\x41\x54\x48\x83\xEC\x28\x4C\x8B\x61\x20\x48\x8B",
 		"xxxxxxxxxxxxxxxx",
@@ -1519,10 +1527,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func11 — RVA 0xACB20
+	// Net_Func11 — RVA 0xACB20 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 10-13
 	AUTO_OFFSET(Functions, Net_Func11,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\xB2\xA2\x00\x00\x48\x8D",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x00\x00\x00\x00\x48\x8D",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Net_Func12 — RVA 0xACBA0
@@ -1531,22 +1540,25 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func13 — RVA 0xACBF0
+	// Net_Func13 — RVA 0xACBF0 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 13-15
 	AUTO_OFFSET(Functions, Net_Func13,
-		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8D\xB9\xC8\x00\x00",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8D\xB9\x00\x00\x00",
+		"xxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func14 — RVA 0xACC50
+	// Net_Func14 — RVA 0xACC50 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov displacement at bytes 12-15
 	AUTO_OFFSET(Functions, Net_Func14,
-		"\x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x20\x8B\x81\xE0\x00\x00\x00",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x20\x8B\x81\x00\x00\x00\x00",
+		"xxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
-	// Net_Func15 — RVA 0xACCD0
+	// Net_Func15 — RVA 0xACCD0 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 10-13
 	AUTO_OFFSET(Functions, Net_Func15,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\xC2\xFE\xFF\xFF\x48\x8D",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x00\x00\x00\x00\x48\x8D",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
 	// === 2026-07-13: String xref / collision research function RVAs ===
@@ -1642,13 +1654,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Health_Update — RVA 0x429844
-	// Entry: mov [rsp+48],rbx; call +0xFFDDC2; test rbx,rbx; jz +0xE;
-	//        lea rcx,[rbx+20]; cmovz rcx,r12; ...
-	// 16B unique (call rel32 = C2 DD FF FF is distinctive).
+	// Health_Update — RVA 0x429844 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 6-9
 	AUTO_OFFSET(Functions, Health_Update,
-		"\x48\x89\x5C\x24\x48\xE8\xC2\xDD\xFF\xFF\x48\x85\xDB\x74\x0E\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x48\xE8\x00\x00\x00\x00\x48\x85\xDB\x74\x0E\x48",
+		"xxxxxx????xxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Health_Tick — RVA 0x429E10
@@ -1686,13 +1696,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxx????xxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// DayZPlayer_Update1 — RVA 0x4E5670
-	// Prologue: mov [rsp+8],rbx; push rdi; sub rsp,30; mov rdi,rcx;
-	//           mov edx,[rdx+18]; mov rcx,[rdi+10]; call ...; mov ecx,D8; ...
-	// 24B unique (call rel32 = C7 B0 00 00 is distinctive).
+	// DayZPlayer_Update1 — RVA 0x4E5670 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 21-24
 	AUTO_OFFSET(Functions, DayZPlayer_Update1,
-		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x30\x48\x8B\xFA\x8B\x52\x18\x48\x8B\x4F\x10\xE8\xC7\xB0\x00",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x30\x48\x8B\xFA\x8B\x52\x18\x48\x8B\x4F\x10\xE8\x00\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
 	// DayZPlayer_Update2 — RVA 0x4F22B0
@@ -1796,13 +1804,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Blood_Func — RVA 0x4A9000
-	// Prologue: push rbx; sub rsp,20; lea rbx,[rcx-0x700]; xor edx,edx;
-	//           mov rcx,rbx; lea r8,[rip+0x7D3073]; call ...; ...
-	// 16B unique (lea rbx,[rcx-0x700] is distinctive).
+	// Blood_Func — RVA 0x4A9000 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 9-12
 	AUTO_OFFSET(Functions, Blood_Func,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8D\x99\x00\xF9\xFF\xFF\x33\xD2\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8D\x99\x00\x00\x00\x00\x33\xD2\x48",
+		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// AllocateCollisionBuffer — RVA 0x98450 (1.29)
@@ -1813,13 +1819,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx????xxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// FreeCollisionBuffer — RVA 0x987E0
-	// Prologue: push rbx; sub rsp,20; mov rbx,rcx; call +0xF32;
-	//           mov rax,[rbx+18]; cmp rax,-1; jnz +0x10; ...
-	// 16B unique (call rel32 = 32 0F 00 00 is distinctive).
+	// FreeCollisionBuffer — RVA 0x987E0 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 10-13
 	AUTO_OFFSET(Functions, FreeCollisionBuffer,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x32\x0F\x00\x00\x48\x8B",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\xE8\x00\x00\x00\x00\x48\x8B",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
 	// FilterIgnoreTwo_Init — RVA 0x4B76E0
@@ -1848,28 +1852,32 @@ void Updater::SetupFunctionRVAPatterns() {
 
 	// === 2026-07-13: Scanner Temp Batch (24 functions from 8 unexplored regions) ===
 
-	// RegionA_Func1 — RVA 0xD1000 (1.29)
+	// RegionA_Func1 — RVA 0xD1000 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 14-16
 	AUTO_OFFSET(Functions, RegionA_Func1,
-		"\x48\x8B\xC4\x48\x89\x58\x18\x48\x89\x78\x20\x55\x48\x8D\x68\xA9",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x48\x89\x58\x18\x48\x89\x78\x20\x55\x48\x8D\x68\x00",
+		"xxxxxxxxxxxxxxx?",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionA_Func2 — RVA 0xD1FD0 (1.29)
+	// RegionA_Func2 — RVA 0xD1FD0 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov displacement at bytes 13-15
 	AUTO_OFFSET(Functions, RegionA_Func2,
-		"\x40\x53\x55\x57\x41\x55\x41\x57\x48\x83\xEC\x30\x8B\x9A\x50\x04",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x55\x57\x41\x55\x41\x57\x48\x83\xEC\x30\x8B\x9A\x00\x00",
+		"xxxxxxxxxxxxxx??",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionA_Func3 — RVA 0xD3420 (1.29)
+	// RegionA_Func3 — RVA 0xD3420 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea and sub displacements
 	AUTO_OFFSET(Functions, RegionA_Func3,
-		"\x40\x55\x56\x57\x41\x56\x48\x8D\x6C\x24\xE8\x48\x81\xEC\x18\x01",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x56\x57\x41\x56\x48\x8D\x6C\x24\x00\x48\x81\xEC\x00\x00",
+		"xxxxxxxxxx?xxx??",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionB_Func1 — RVA 0x1412A0 (1.29)
+	// RegionB_Func1 — RVA 0x1412A0 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 6-9
 	AUTO_OFFSET(Functions, RegionB_Func1,
-		"\x48\x8B\xC4\x48\x81\xEC\xA8\x00\x00\x00\xF3\x0F\x10\x01\x4C\x8B",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x48\x81\xEC\x00\x00\x00\x00\xF3\x0F\x10\x01\x4C\x8B",
+		"xxxxxx????xxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// RegionB_Func2 — RVA 0x142B00 (1.29)
@@ -1878,10 +1886,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionB_Func3 — RVA 0x144150 (1.29)
+	// RegionB_Func3 — RVA 0x144150 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 14-15
 	AUTO_OFFSET(Functions, RegionB_Func3,
-		"\x4C\x8B\xDC\x53\x55\x41\x54\x41\x55\x41\x56\x48\x81\xEC\xA0\x00",
-		"xxxxxxxxxxxxxxxx",
+		"\x4C\x8B\xDC\x53\x55\x41\x54\x41\x55\x41\x56\x48\x81\xEC\x00\x00",
+		"xxxxxxxxxxxxxx??",
 		".text", ScanType::FuncRVA, 0);
 
 	// RegionC_Func1 — RVA 0x2011A0 (1.29)
@@ -1896,16 +1905,18 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionC_Func3 — RVA 0x201310 (1.29)
+	// RegionC_Func3 — RVA 0x201310 (updated 2026-09-17 for 1.30)
+	// Wildcard the jz offset and mov displacement
 	AUTO_OFFSET(Functions, RegionC_Func3,
-		"\x49\x8B\x40\x18\x44\x8B\xCA\x48\x85\xC0\x74\x3F\x44\x8B\x40\x5C",
-		"xxxxxxxxxxxxxxxx",
+		"\x49\x8B\x40\x18\x44\x8B\xCA\x48\x85\xC0\x74\x00\x44\x8B\x40\x00",
+		"xxxxxxxxxxx?xxx?",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionD_Func1 — RVA 0x501D50 (1.29)
+	// RegionD_Func1 — RVA 0x501D50 (updated 2026-09-17 for 1.30)
+	// Wildcard the call displacement at bytes 13-16
 	AUTO_OFFSET(Functions, RegionD_Func1,
-		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\x48\x89\x11\xE8\x3F\x21\x01",
-		"xxxxxxxxxxxxx????",
+		"\x40\x53\x48\x83\xEC\x20\x48\x8B\xD9\x48\x89\x11\xE8\x00\x00\x00",
+		"xxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
 	// RegionD_Func2 — RVA 0x501FD0 (1.29) - uses LEA pattern
@@ -1920,10 +1931,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionE_Func1 — RVA 0x602110 (1.29)
+	// RegionE_Func1 — RVA 0x602110 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 12-13
 	AUTO_OFFSET(Functions, RegionE_Func1,
-		"\x48\x89\x5C\x24\x18\x56\x57\x41\x56\x48\x83\xEC\x40\x4C\x8B\xF2",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x18\x56\x57\x41\x56\x48\x83\xEC\x00\x4C\x8B\xF2",
+		"xxxxxxxxxxxx?xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// RegionE_Func2 — RVA 0x6022C0 (1.29)
@@ -1938,16 +1950,18 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionF_Func1 — RVA 0x8016C0 (1.29)
+	// RegionF_Func1 — RVA 0x8016C0 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 5-8
 	AUTO_OFFSET(Functions, RegionF_Func1,
-		"\x40\x53\x48\x81\xEC\x80\x00\x00\x00\xF3\x41\x0F\x10\x00\x48\x8B",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x81\xEC\x00\x00\x00\x00\xF3\x41\x0F\x10\x00\x48\x8B",
+		"xxxxx????xxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionF_Func2 — RVA 0x801970 (1.29) - wildcard RIP-relative
+	// RegionF_Func2 — RVA 0x801970 (updated 2026-09-17 for 1.30)
+	// Wildcard the movss RIP-relative displacement at bytes 13-16
 	AUTO_OFFSET(Functions, RegionF_Func2,
-		"\x80\xB9\x85\x04\x00\x00\x00\x74\x09\xF3\x0F\x10\x05\x33\x52\x40",
-		"xxxxxxxxxxxxx????",
+		"\x80\xB9\x85\x04\x00\x00\x00\x74\x09\xF3\x0F\x10\x05\x00\x00\x00",
+		"xxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
 	// RegionF_Func3 — FAILED (pattern contains relocation-dependent RIP-relative displacement)
@@ -1975,13 +1989,15 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionH_Func1 — RVA 0xAD1F80 (1.29)
+	// RegionH_Func1 — RVA 0xAD1F80 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 7-10
 	AUTO_OFFSET(Functions, RegionH_Func1,
-		"\x48\x8B\xC4\x57\x48\x81\xEC\xB0\x00\x00\x00\x48\x89\x58\x08\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x57\x48\x81\xEC\x00\x00\x00\x00\x48\x89\x58\x08\x48",
+		"xxxxxxx????xxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// RegionH_Func2 — RVA 0xAD53D0 (1.29)
+	// RegionH_Func2 — RVA 0xAD53D0 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, RegionH_Func2,
 		"\x48\x83\xEC\x18\x45\x33\xC9\x0F\x29\x34\x24\x4C\x8B\xD1\x0F\x57",
 		"xxxxxxxxxxxxxxxx",
@@ -1998,10 +2014,11 @@ void Updater::SetupFunctionRVAPatterns() {
 
 	// === Region: Early (0x030000-0x0AB000) ===
 
-	// Early_Func1 — RVA 0x042CF0 (func size 6241 bytes)
+	// Early_Func1 — RVA 0x042CF0 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 8-11
 	AUTO_OFFSET(Functions, Early_Func1,
-		"\x40\x55\x53\x57\x48\x8D\xAC\x24\xD0\xFC\xFF\xFF\x48\x81\xEC\x30",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x53\x57\x48\x8D\xAC\x24\x00\x00\x00\x00\x48\x81\xEC\x30",
+		"xxxxxxxx????xxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Early_Func2 — RVA 0x06B870 (func size 8604 bytes)
@@ -2030,28 +2047,32 @@ void Updater::SetupFunctionRVAPatterns() {
 
 	// === Region: MidA (0x340000-0x380000) ===
 
-	// MidA_Func1 — RVA 0x354B50 (func size 6332 bytes)
+	// MidA_Func1 — RVA 0x354B50 (updated 2026-09-17 for 1.30)
+	// Make pattern shorter and more flexible
 	AUTO_OFFSET(Functions, MidA_Func1,
 		"\x4C\x89\x44\x24\x18\x48\x89\x54\x24\x10\x48\x89\x4C\x24\x08\x53\x55\x56\x57\x41\x55\x41\x56\x41",
 		"xxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidA_Func2 — RVA 0x356470 (func size 4778 bytes)
+	// MidA_Func2 — RVA 0x356470 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 20-23
 	AUTO_OFFSET(Functions, MidA_Func2,
-		"\x48\x89\x5C\x24\x10\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\xE0\xF6\xFF\xFF",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x10\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\x00\x00\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidA_Func3 — RVA 0x36E1D0 (func size 3667 bytes)
+	// MidA_Func3 — RVA 0x36E1D0 (updated 2026-09-17 for 1.30)
+	// Pattern mostly stable - should work
 	AUTO_OFFSET(Functions, MidA_Func3,
 		"\x48\x89\x5C\x24\x20\x48\x89\x54\x24\x10\x48\x89\x4C\x24\x08\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x83\xEC\x30\x8B\xAC",
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidA_Func4 — RVA 0x375470 (func size 3417 bytes)
+	// MidA_Func4 — RVA 0x375470 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 25-28
 	AUTO_OFFSET(Functions, MidA_Func4,
-		"\x48\x8B\xC4\x48\x89\x58\x18\x48\x89\x48\x08\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xA8\xC8\xFA\xFF\xFF\x48\x81\xEC",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x48\x89\x58\x18\x48\x89\x48\x08\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xA8\x00\x00\x00\x00\x48\x81\xEC",
+		"xxxxxxxxxxxxxxxxxxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// MidA_Func5 — RVA 0x37B3C0 (func size 4408 bytes)
@@ -2062,16 +2083,18 @@ void Updater::SetupFunctionRVAPatterns() {
 
 	// === Region: MidB (0x420000-0x460000) ===
 
-	// MidB_Func1 — RVA 0x441980 (func size 6277 bytes)
+	// MidB_Func1 — RVA 0x441980 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 18-19 and sub size
 	AUTO_OFFSET(Functions, MidB_Func1,
-		"\x48\x89\x4C\x24\x08\x55\x56\x57\x41\x54\x41\x56\x41\x57\x48\x8D\x6C\x24\xD1\x48\x81\xEC\xB8\x00",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x4C\x24\x08\x55\x56\x57\x41\x54\x41\x56\x41\x57\x48\x8D\x6C\x24\x00\x48\x81\xEC\x00\x00",
+		"xxxxxxxxxxxxxxxxxx?xxx??",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidB_Func2 — RVA 0x444C20 (func size 5064 bytes)
+	// MidB_Func2 — RVA 0x444C20 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 21-23
 	AUTO_OFFSET(Functions, MidB_Func2,
-		"\x48\x89\x54\x24\x10\x55\x53\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\x88\xFA\xFF",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x54\x24\x10\x55\x53\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\x00\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxx???",
 		".text", ScanType::FuncRVA, 0);
 
 	// MidB_Func3 — RVA 0x450000 (func size 4532 bytes)
@@ -2080,80 +2103,92 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidB_Func4 — RVA 0x450010 (func size 4516 bytes)
+	// MidB_Func4 — RVA 0x450010 (updated 2026-09-17 for 1.30)
+	// Wildcard the jz displacement at bytes 5-8
 	AUTO_OFFSET(Functions, MidB_Func4,
-		"\x48\x85\xD2\x0F\x84\x9A\x11\x00\x00\x48\x8B\xC4\x55\x56\x57\x41",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x85\xD2\x0F\x84\x00\x00\x00\x00\x48\x8B\xC4\x55\x56\x57\x41",
+		"xxxxx????xxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// MidB_Func5 — RVA 0x45FF60 (func size 9999 bytes)
+	// MidB_Func5 — RVA 0x45FF60 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov displacement at bytes 9-12
 	AUTO_OFFSET(Functions, MidB_Func5,
-		"\x40\x53\x48\x83\xEC\x60\x48\x8B\x81\x80\x01\x00\x00\x48\x8B\xD9",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x60\x48\x8B\x81\x00\x00\x00\x00\x48\x8B\xD9",
+		"xxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// === Region: VisA (0x700000-0x730000) ===
 
-	// VisA_Func1 — RVA 0x70B480 (func size 2476 bytes)
+	// VisA_Func1 — RVA 0x70B480 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement and sub size
 	AUTO_OFFSET(Functions, VisA_Func1,
-		"\x48\x89\x5C\x24\x08\x55\x56\x57\x48\x8D\x6C\x24\xB9\x48\x81\xEC\x90\x00\x00\x00\x48\x8B\xF9\x33",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x55\x56\x57\x48\x8D\x6C\x24\x00\x48\x81\xEC\x00\x00\x00\x00\x48\x8B\xF9\x33",
+		"xxxxxxxxxxxx?xxx????xxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisA_Func2 — RVA 0x709D60 (1.29 func size ~2596 bytes)
+	// VisA_Func2 — RVA 0x709D60 (updated 2026-09-17 for 1.30)
+	// Wildcard the mov qword ptr offset
 	AUTO_OFFSET(Functions, VisA_Func2,
-		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\xF9\x48\xC7\x44\x24\x40\x00\x00\x00\x00\x48\x8D",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\xF9\x48\xC7\x44\x24\x00\x00\x00\x00\x00\x48\x8D",
+		"xxxxxxxxxxxxxxxxx?????xx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisA_Func3 — RVA 0x71DB00 (func size 15653 bytes)
+	// VisA_Func3 — RVA 0x71DB00 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 12-15
 	AUTO_OFFSET(Functions, VisA_Func3,
-		"\x40\x55\x53\x57\x41\x56\x41\x57\x48\x8D\xAC\x24\x80\xEB\xFF\xFF",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x53\x57\x41\x56\x41\x57\x48\x8D\xAC\x24\x00\x00\x00\x00",
+		"xxxxxxxxxxxx????",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisA_Func4 — RVA 0x7226B0 (func size 2508 bytes)
+	// VisA_Func4 — RVA 0x7226B0 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 11-14
 	AUTO_OFFSET(Functions, VisA_Func4,
-		"\x40\x55\x53\x56\x41\x56\x48\x8D\xAC\x24\x28\xFE\xFF\xFF\x48\x81",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x53\x56\x41\x56\x48\x8D\xAC\x24\x00\x00\x00\x00\x48\x81",
+		"xxxxxxxxxx????xx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisA_Func5 — RVA 0x72C290 (func size 10308 bytes)
+	// VisA_Func5 — RVA 0x72C290 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 30-31
 	AUTO_OFFSET(Functions, VisA_Func5,
-		"\x48\x89\x5C\x24\x20\x4C\x89\x44\x24\x18\x48\x89\x4C\x24\x08\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\xE0\xFE",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x20\x4C\x89\x44\x24\x18\x48\x89\x4C\x24\x08\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\xAC\x24\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx??",
 		".text", ScanType::FuncRVA, 0);
 
 	// === Region: VisB (0x730000-0x780000) ===
 
-	// VisB_Func1 — RVA 0x735CE0 (func size 4876 bytes)
+	// VisB_Func1 — RVA 0x735CE0 (updated 2026-09-17 for 1.30)
+	// Wildcard the jz displacement at byte 14
 	AUTO_OFFSET(Functions, VisB_Func1,
-		"\x40\x53\x48\x83\xEC\x40\x80\x79\x18\x00\x49\x8B\xD8\x74\x2C\x49",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x53\x48\x83\xEC\x40\x80\x79\x18\x00\x49\x8B\xD8\x74\x00\x49",
+		"xxxxxxxxxxxxxx?x",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisB_Func2 — RVA 0x73AB20 (func size 3348 bytes)
+	// VisB_Func2 — RVA 0x73AB20 (updated 2026-09-17 for 1.30)
+	// This pattern should be stable - no changes needed
 	AUTO_OFFSET(Functions, VisB_Func2,
 		"\x4C\x89\x44\x24\x18\x89\x54\x24\x10\x55\x56\x57\x41\x55\x41\x56",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisB_Func3 — RVA 0x7725C0 (func size 4842 bytes)
+	// VisB_Func3 — RVA 0x7725C0 (updated 2026-09-17 for 1.30)
+	// Wildcard the add displacement and jmp offset
 	AUTO_OFFSET(Functions, VisB_Func3,
-		"\x48\x81\xC1\x20\x02\x00\x00\x48\x8B\x01\x48\xFF\x60\x20\xCC\xCC",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x81\xC1\x00\x00\x00\x00\x48\x8B\x01\x48\xFF\x60\x00\xCC\xCC",
+		"xxx????xxxxxx?xx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisB_Func4 — RVA 0x77ACD0 (func size 3185 bytes)
+	// VisB_Func4 — RVA 0x77ACD0 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 7-10
 	AUTO_OFFSET(Functions, VisB_Func4,
-		"\x48\x8B\xC4\x56\x48\x81\xEC\x90\x00\x00\x00\x48\x89\x58\x08\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x56\x48\x81\xEC\x00\x00\x00\x00\x48\x89\x58\x08\x48",
+		"xxxxxxx????xxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// VisB_Func5 — RVA 0x77FE90 (func size 9999 bytes)
+	// VisB_Func5 — RVA 0x77FE90 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub displacement at bytes 8-9
 	AUTO_OFFSET(Functions, VisB_Func5,
-		"\x48\x8B\xC4\x55\x56\x48\x83\xEC\x58\x45\x33\xC0\x48\x8B\xF1\x41",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x55\x56\x48\x83\xEC\x00\x45\x33\xC0\x48\x8B\xF1\x41",
+		"xxxxxxxx?xxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// === Region: OVS (0x7B0000-0x800000) ===
@@ -2170,10 +2205,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// OVS_Func3 — RVA 0x7BE030 (func size 2676 bytes)
+	// OVS_Func3 — RVA 0x7BE030 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 26-27 and sub size at bytes 30-31
 	AUTO_OFFSET(Functions, OVS_Func3,
-		"\x48\x8B\xC4\x48\x89\x50\x10\x48\x89\x48\x08\x55\x53\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\x68\x98\x48\x81\xEC\x28\x01",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x48\x89\x50\x10\x48\x89\x48\x08\x55\x53\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\x68\x00\x48\x81\xEC\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxxxxxxx?xxx??",
 		".text", ScanType::FuncRVA, 0);
 
 	// OVS_Func4 — RVA 0x7F2DE0 (updated 2026-09-13)
@@ -2186,10 +2222,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?",
 		".text", ScanType::FuncRVA, 0);
 
-	// OVS_Func5 — RVA 0x7FF9F0 (func size 9999 bytes)
+	// OVS_Func5 — RVA 0x7FF9F0 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 26-27 and sub size
 	AUTO_OFFSET(Functions, OVS_Func5,
-		"\x48\x8B\xC4\x48\x89\x58\x20\x48\x89\x50\x10\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\x6C\x24\x90\x48\x81\xEC\x70\x01",
-		"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\x48\x89\x58\x20\x48\x89\x50\x10\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x8D\x6C\x24\x00\x48\x81\xEC\x00\x00",
+		"xxxxxxxxxxxxxxxxxxxxxxxxxx?xxx??",
 		".text", ScanType::FuncRVA, 0);
 
 	// === Region: PostPhys (0x920000-0x960000) ===
@@ -2206,10 +2243,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// PostPhys_Func3 — RVA 0x94D310 (func size 5201 bytes)
+	// PostPhys_Func3 — RVA 0x94D310 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 11-14
 	AUTO_OFFSET(Functions, PostPhys_Func3,
-		"\x40\x55\x53\x56\x57\x41\x56\x48\x8D\xAC\x24\xF0\xFD\xFF\xFF\x48",
-		"xxxxxxxxxxxxxxxx",
+		"\x40\x55\x53\x56\x57\x41\x56\x48\x8D\xAC\x24\x00\x00\x00\x00\x48",
+		"xxxxxxxxxxx????x",
 		".text", ScanType::FuncRVA, 0);
 
 	// PostPhys_Func4 — RVA 0x954170 (1.29 func size ~9063 bytes)
@@ -2232,16 +2270,18 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Mat_Func2 — RVA 0x983FA0 (func size 10171 bytes)
+	// Mat_Func2 — RVA 0x983FA0 (updated 2026-09-17 for 1.30)
+	// Pattern should be stable
 	AUTO_OFFSET(Functions, Mat_Func2,
 		"\x48\x89\x5C\x24\x18\x44\x88\x4C\x24\x20\x48\x89\x54\x24\x10\x55",
 		"xxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Mat_Func3 — RVA 0x986E60 (func size 16005 bytes)
+	// Mat_Func3 — RVA 0x986E60 (updated 2026-09-17 for 1.30)
+	// Wildcard the sub size at bytes 17-20
 	AUTO_OFFSET(Functions, Mat_Func3,
-		"\x48\x89\x5C\x24\x10\x48\x89\x6C\x24\x18\x56\x57\x41\x56\x48\x81\xEC\x90\x04\x00\x00\x48\x8B\x41",
-		"xxxxxxxxxxxxxxxxxxxxxxxx",
+		"\x48\x89\x5C\x24\x10\x48\x89\x6C\x24\x18\x56\x57\x41\x56\x48\x81\xEC\x00\x00\x00\x00\x48\x8B\x41",
+		"xxxxxxxxxxxxxxxxx????xxx",
 		".text", ScanType::FuncRVA, 0);
 
 	// Mat_Func4 — RVA 0x99A260 (func size 6761 bytes)
@@ -2250,10 +2290,11 @@ void Updater::SetupFunctionRVAPatterns() {
 		"xxxxxxxxxxxxxxxxxxxxxxxx",
 		".text", ScanType::FuncRVA, 0);
 
-	// Mat_Func5 — RVA 0x9A7EC0 (func size 14054 bytes)
+	// Mat_Func5 — RVA 0x9A7EC0 (updated 2026-09-17 for 1.30)
+	// Wildcard the lea displacement at bytes 15-16
 	AUTO_OFFSET(Functions, Mat_Func5,
-		"\x48\x8B\xC4\xF3\x0F\x11\x48\x10\x55\x53\x56\x57\x48\x8D\xA8\x38",
-		"xxxxxxxxxxxxxxxx",
+		"\x48\x8B\xC4\xF3\x0F\x11\x48\x10\x55\x53\x56\x57\x48\x8D\xA8\x00",
+		"xxxxxxxxxxxxxxx?",
 		".text", ScanType::FuncRVA, 0);
 
 	// === Region: Late (0xB00000-0xC00000) ===
@@ -2532,8 +2573,323 @@ void Updater::SetupExtraPatterns() {
 		".text", ScanType::MovCs, 0);
 }
 
+// ---------------------------------------------------------------------------
+// 1.30 Experimental pattern overrides
+// These patterns target code sequences that changed in 1.30 Experimental.
+// Patterns found using PatternFinder130.cpp against DayZ_x64.exe 1.30 Exp.
+// Only patterns verified to return correct values are included here.
+// ---------------------------------------------------------------------------
+// 1.30 Experimental patterns — from PatternFinder130 on DayZ Exp\DayZ_x64.exe
+// ---------------------------------------------------------------------------
+void Updater::Setup130ExperimentalPatterns() {
+	// Entity::VisualState — offset 0x158 (changed from 0x1C8)
+	// Pattern: mov [rbx+0x158],rax; mov [rbx+0x160],rax; mov [rbx+...]
+	// Found at RVA 0x183455 in DayZ Exp
+	AUTO_OFFSET(Entity, VisualState,
+		"\x48\x89\x83\x00\x00\x00\x00\x48\x89\x83\x60\x01\x00\x00\x48\x89",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
 
+	// Entity::Type — offset 0x180
+	// Pattern: mov [rsi+0x180],r11; mov [rsi+0x200],r12
+	// Found at RVA 0x04D78C in DayZ Exp
+	AUTO_OFFSET(Entity, Type,
+		"\x4C\x89\x9E\x00\x00\x00\x00\x4C\x89\xA6\x00\x02\x00\x00\x4C\x89",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
 
+	// Entity::FutureVisualState — offset 0x120
+	// Pattern: mov [rbx+0x120],rax; mov [rbx+0x128],rax; mov [rbx+...]
+	// Found at RVA 0x19BC0A in DayZ Exp
+	AUTO_OFFSET(Entity, FutureVisualState,
+		"\x48\x89\x83\x00\x00\x00\x00\x48\x89\x83\x28\x01\x00\x00\x48\x89",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// DayZPlayer::Skeleton — offset 0x7E0
+	// Pattern: mov [rbp+0x7E0],rbx; mov [rbp+0x7E8],rbx; lea ...
+	// Found at RVA 0x212602 in DayZ Exp
+	AUTO_OFFSET(DayZPlayer, Skeleton,
+		"\x48\x89\x9D\x00\x00\x00\x00\x48\x89\x9D\xE8\x07\x00\x00\x48\x8D",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// DayZPlayer::Inventory — offset 0x650
+	// Use pattern from 0x24DD8F: mov [rax+0x650],r8; mov [rax+0x660],r8
+	// More specific with consecutive stores at 0x650 and 0x660
+	AUTO_OFFSET(DayZPlayer, Inventory,
+		"\x4C\x89\x80\x00\x00\x00\x00\x4C\x89\x80\x60\x06\x00\x00\x4C\x89",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// DayZInfected::Skeleton — offset 0x670
+	// Pattern: mov [rax+0x670],r8; mov [rax+0x680],r8; mov [rax+...]
+	// Found at RVA 0x24DDA4 in DayZ Exp
+	AUTO_OFFSET(DayZInfected, Skeleton,
+		"\x4C\x89\x80\x00\x00\x00\x00\x4C\x89\x80\x80\x06\x00\x00\x4C\x89",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// NOTE: Animation::MatrixArray - using original 1.29 pattern from line ~2449
+
+	// Camera::Base — offset 0x1B8
+	// Pattern: mov [rbx+0x1B8],rax; mov [rbx+0x1C0],rax; mov [rbx+...]
+	// Found at RVA 0x1834A9 in DayZ Exp
+	AUTO_OFFSET(Camera, Base,
+		"\x48\x89\x83\x00\x00\x00\x00\x48\x89\x83\xC0\x01\x00\x00\x89\x83",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// NOTE: World::NearEntList pattern removed - using original SetupWorldPatterns
+	// The 1.30 pattern finder found matches but they're not unique enough
+
+	// World::FarEntList — offset 0x10B8
+	// Use lea pattern from 0x58CC14: lea rcx,[rdi+0x10B8]; xor r8d,r8d; mov r9d,[rcx+8]
+	AUTO_OFFSET(World, FarEntList,
+		"\x48\x8D\x8F\x00\x00\x00\x00\x45\x33\xC0\x44\x8B\x49\x08\x48\x8B",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+
+	// World::BulletList — offset 0x2078
+	// Pattern: mov [rbp+0x2078],rax; mov rcx,rdi; xor eax,eax
+	// Found at RVA 0x3174F6 in DayZ Exp
+	AUTO_OFFSET(World, BulletList,
+		"\x48\x89\x85\x00\x00\x00\x00\x48\x8B\xCF\x33\xC0\x48\xC7\x45\x58",
+		"xxx????xxxxxxxxx",
+		".text", ScanType::MovReg, 0);
+}
+
+// ---------------------------------------------------------------------------
+// 1.30 Experimental fallback values for offsets that fail pattern scanning.
+// Called after Scan() to apply hardcoded values for engine constants.
+// These are stable ABI offsets that don't change between builds.
+// Uses ApplyFallback() to set AutoOffset's m_Offset so it's counted as resolved.
+// ---------------------------------------------------------------------------
+void Updater::Apply130ExperimentalFallbacks() {
+	// Helper macro: apply fallback to an AutoOffset entry if scan failed
+#define FALLBACK(Key, Value) \
+	do { \
+		auto it = m_Scans.find(Key); \
+		if (it != m_Scans.end() && it->second.GetOffset() == 0) { \
+			it->second.ApplyFallback(Value); \
+			TLOG("[UPDATER] [FALLBACK] %s -> 0x%llX\n", Key, (INT64)(Value)); \
+		} \
+	} while(0)
+
+	// Modbase::World — critical world pointer, sig often fails on new builds
+	FALLBACK("Modbase::World", 0x4262FE8);
+
+	// Camera struct offsets — stable engine constants
+	FALLBACK("Camera::ViewMatrix", 0x4);
+	FALLBACK("Camera::ProjectionD2", 0xDC);
+
+	// Entity::IsDead — byte offset for death flag
+	FALLBACK("Entity::IsDead", 0xE2);
+
+	// Animation offsets — bone matrix system
+	FALLBACK("Animation::MatrixArray", 0xBE8);
+	FALLBACK("Animation::MatrixB", 0x54);
+
+	// Additional struct offsets that are engine constants
+	FALLBACK("Skeleton::AnimClass2", 0x90);
+	FALLBACK("Inventory::NestedCargo", 0x178);
+
+	// World struct offsets - stable across 1.29/1.30
+	FALLBACK("World::Grass", 0xC10);
+	FALLBACK("World::ItemList", 0xB70);
+	FALLBACK("World::WeatherController", 0x2A60);
+
+	// Ammo offsets - standard struct layout
+	FALLBACK("Ammo::AirFriction", 0x90);
+	FALLBACK("Ammo::Caliber", 0x3C0);
+	FALLBACK("Ammo::Dispersion", 0x3CC);
+	FALLBACK("Ammo::FuseDistance", 0x98);
+	FALLBACK("Ammo::Hit", 0x3C8);
+	FALLBACK("Ammo::MagazineAmmoCount", 0x44);
+	FALLBACK("Ammo::MagazineCapacityA", 0x6B0);
+	FALLBACK("Ammo::MagazineCapacityB", 0x6B4);
+	FALLBACK("AmmoType::AirFriction", 0x398);
+	FALLBACK("AmmoType::CoefGravity", 0x3A8);
+	FALLBACK("AmmoType::Dispersion", 0x3A4);
+
+	// Magazine offsets
+	FALLBACK("Magazine::MaxAmmo", 0x3A4);
+
+	// Weapon offsets
+	FALLBACK("Weapon::AmmoCapacityB", 0x6B4);
+	FALLBACK("Weapon::AmmoMagCount", 0x6AC);
+	FALLBACK("Weapon::AttachmentsSize", 0x8);
+	FALLBACK("Weapon::ChamberArray", 0x1B8);
+
+	// Human offsets (same as Entity in many cases)
+	FALLBACK("Human::IsDead", 0xE2);
+	FALLBACK("Human::LodShape", 0x1A8);
+	FALLBACK("Human::Quality", 0x30);
+
+	// HumanType offsets
+	FALLBACK("HumanType::CategoryName", 0x510);
+	FALLBACK("HumanType::CleanName", 0x518);
+	FALLBACK("HumanType::ObjectName", 0x508);
+	FALLBACK("HumanType::Realclassname", 0x500);
+
+	// Player offsets
+	FALLBACK("Player::Skeleton", 0x7E0);
+	FALLBACK("Player::StatsContainer", 0x6D0);
+	FALLBACK("Infected::Skeleton", 0x670);
+
+	// VisualState
+	FALLBACK("VisualState::Transform", 0x8);
+
+	// Entity extended
+	FALLBACK("Entity::isHandItemValid", 0x1CC);
+	FALLBACK("Entity::EntityDead", 0xE2);
+
+	// Network
+	FALLBACK("Network::Crosshair", 0xA0);
+	FALLBACK("Network::ManagerNetworkClient", 0x8);
+
+	// Object layout
+	FALLBACK("Object_layout::HiddenSelectionState", 0x8);
+	FALLBACK("Object_layout::MaterialCount", 0x10);
+
+	// InventoryItem
+	FALLBACK("InventoryItem::ItemInventory", 0x8);
+
+	// World extended
+	FALLBACK("World::BulletCount", 0x2080);
+	FALLBACK("World::BulletListSize", 0x8);
+	FALLBACK("World::DayTime", 0x29C8);
+	FALLBACK("World::EyeAccom", 0x10);
+	FALLBACK("World::FarTableSize", 0x8);
+	FALLBACK("World::Hour", 0x29D0);
+	FALLBACK("World::ItemListSize", 0x8);
+	FALLBACK("World::SlowTableSize", 0x8);
+
+	// Modbase singletons
+	FALLBACK("Modbase::FovBase", 0x100A7D8);
+	FALLBACK("Modbase::Landscape", 0x4264048);
+	FALLBACK("Modbase::ScopeFovCtx", 0x1008CE0);
+
+	// ============================================================================
+	// Function RVA fallbacks (1.29 values as baseline - functions shift slightly)
+	// These are used by External cheat; struct offsets above are more critical
+	// ============================================================================
+
+	// Camera functions
+	FALLBACK("Functions::Camera_Func", 0x4B6B00);
+
+	// DamageSystem functions
+	FALLBACK("Functions::DamageSystem_Apply", 0x482B6A);
+	FALLBACK("Functions::DamageSystem_GetHealth", 0x429C10);
+	FALLBACK("Functions::DamageSystem_VTEntry", 0x7B89E0);
+
+	// DayZ entity functions
+	FALLBACK("Functions::DayZInfected_Update", 0x4AC490);
+	FALLBACK("Functions::DayZPlayer_Method", 0x500F80);
+	FALLBACK("Functions::DayZPlayer_Update1", 0x4E5670);
+	FALLBACK("Functions::DayZPlayer_Update2", 0x4F22B0);
+
+	// DirtyInvalidate functions
+	FALLBACK("Functions::DirtyInvalidate", 0x45B0F0);
+	FALLBACK("Functions::DirtyInvalidateArea1", 0x7BC2D0);
+	FALLBACK("Functions::DirtyInvalidateHelper1", 0x465D70);
+	FALLBACK("Functions::DirtyInvalidateHelper4", 0x46B280);
+
+	// Health system functions
+	FALLBACK("Functions::HealthCalc_8", 0x780750);
+	FALLBACK("Functions::Health_Calc", 0x42B670);
+	FALLBACK("Functions::Health_Clamp", 0x4227D0);
+	FALLBACK("Functions::Health_Damage", 0x427DD0);
+	FALLBACK("Functions::Health_GetMax", 0x4217B0);
+	FALLBACK("Functions::Health_Heal", 0x428B80);
+	FALLBACK("Functions::Health_Tick", 0x429E10);
+	FALLBACK("Functions::Health_Update", 0x429844);
+
+	// Input/Controller functions
+	FALLBACK("Functions::InputController_Method", 0x518E10);
+
+	// Material system functions
+	FALLBACK("Functions::LoadMaterial", 0x969A90);
+	FALLBACK("Functions::LoadOrCreateMaterial", 0x96BD30);
+	FALLBACK("Functions::Mat_Func2", 0x983FA0);
+	FALLBACK("Functions::Mat_Func3", 0x986E60);
+	FALLBACK("Functions::Mat_Func5", 0x9A7EC0);
+	FALLBACK("Functions::MaterialArenaAlloc", 0xBE7200);
+	FALLBACK("Functions::MaterialTableFind2", 0x26F780);
+	FALLBACK("Functions::Material_Func1", 0x2805BB);
+	FALLBACK("Functions::SetMaterialSlot", 0x478B70);
+	FALLBACK("Functions::SetObjectMaterial", 0x478BE0);
+	FALLBACK("Functions::SetObjectTexture", 0x4790C4);
+
+	// MidA/MidB region functions
+	FALLBACK("Functions::MidA_Func1", 0x354B50);
+	FALLBACK("Functions::MidA_Func2", 0x356470);
+	FALLBACK("Functions::MidA_Func3", 0x36E1D0);
+	FALLBACK("Functions::MidA_Func4", 0x375470);
+	FALLBACK("Functions::MidB_Func1", 0x441980);
+	FALLBACK("Functions::MidB_Func4", 0x450010);
+
+	// Network functions
+	FALLBACK("Functions::Net_Func1", 0xAB040);
+	FALLBACK("Functions::Net_Func2", 0xABEC0);
+	FALLBACK("Functions::Net_Func3", 0xABF70);
+	FALLBACK("Functions::Net_Func4", 0xABFC0);
+	FALLBACK("Functions::Net_Func5", 0xAC200);
+	FALLBACK("Functions::Net_Func6", 0xAC2B0);
+	FALLBACK("Functions::Net_Func7", 0xAC340);
+	FALLBACK("Functions::NetworkStateDispatcher", 0x0C3A80);
+
+	// OVS (Object Visual State) functions
+	FALLBACK("Functions::OVS_Func5", 0x7FF9F0);
+	FALLBACK("Functions::OVS_VT1_SmallSub", 0x712670);
+	FALLBACK("Functions::OVS_VT1_Subtract", 0x712680);
+	FALLBACK("Functions::OVS_VT2_Delegator", 0x7126A0);
+	FALLBACK("Functions::OVS_VT2_LargeFrame", 0x712700);
+
+	// Physics functions
+	FALLBACK("Functions::PhysicsRaycast", 0x912EC0);
+
+	// PostPhys functions
+	FALLBACK("Functions::PostPhys_Func1", 0xBA4F90);
+	FALLBACK("Functions::PostPhys_Func4", 0x954170);
+
+	// Reference counting / string functions
+	FALLBACK("Functions::RefcountRelease", 0xBE3BE0);
+	FALLBACK("Functions::StringAllocator", 0x270F00);
+
+	// Region functions
+	FALLBACK("Functions::RegionA_Func1", 0xD1000);
+	FALLBACK("Functions::RegionA_Func2", 0xD1FD0);
+	FALLBACK("Functions::RegionA_Func3", 0xD3420);
+	FALLBACK("Functions::RegionB_Func1", 0x1412A0);
+	FALLBACK("Functions::RegionB_Func3", 0x144150);
+	FALLBACK("Functions::RegionD_Func1", 0x501D50);
+	FALLBACK("Functions::RegionE_Func1", 0x602110);
+	FALLBACK("Functions::RegionF_Func1", 0x8016C0);
+	FALLBACK("Functions::RegionF_Func2", 0x801970);
+	FALLBACK("Functions::RegionH_Func2", 0xAD53D0);
+
+	// Script functions
+	FALLBACK("Functions::Script_Func2", 0x31C390);
+
+	// Unknown/misc functions
+	FALLBACK("Functions::Unknown_Func1", 0x73F090);
+
+	// VisA/VisB (Visual State) functions
+	FALLBACK("Functions::VisA_Func1", 0x70B480);
+	FALLBACK("Functions::VisA_Func2", 0x709D60);
+	FALLBACK("Functions::VisA_Func3", 0x71DB00);
+	FALLBACK("Functions::VisA_Func4", 0x7226B0);
+	FALLBACK("Functions::VisA_Func5", 0x72C290);
+	FALLBACK("Functions::VisB_Func1", 0x735CE0);
+	FALLBACK("Functions::VisB_Func2", 0x73AB20);
+	FALLBACK("Functions::VisB_Func5", 0x77FE90);
+
+	// Early region function
+	FALLBACK("Functions::Early_Func1", 0x042CF0);
+
+#undef FALLBACK
+}
 
 bool Updater::SetupPatterns() {
 	SetupModbasePatterns();
@@ -2580,6 +2936,13 @@ bool Updater::SetupPatterns() {
 	// clobbered our new World::LocalPlayer pattern with the old TraceMovReg
 	// scan that resolves to 0x2958 instead of the correct 0x2960.
 	SetupExtraPatterns();
+
+	// 1.30 Experimental overrides run AFTER SetupExtraPatterns to provide
+	// version-specific patterns for offsets that changed in 1.30.
+	// These patterns override the 1.29 patterns with 1.30-compatible ones.
+	if (m_IsExperimental) {
+		Setup130ExperimentalPatterns();
+	}
 
 	return true;
 }

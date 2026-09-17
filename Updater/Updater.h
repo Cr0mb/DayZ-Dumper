@@ -71,6 +71,8 @@ public:
 	void SetLastOffset(INT32 Offset);
 
 	INT64 GetOffset();
+	INT64* GetReference() { return m_Reference; }
+	void ApplyFallback(INT64 value) { if (!m_Offset) m_Offset = value; }
 
 	virtual bool Scan(UINT64 Module, PBYTE Allocated);
 };
@@ -110,8 +112,12 @@ public:
 	// Platform selector. Auto = try LoadLibraryA first (Steam path), fall
 	// back to NeacSafe64 live-memory dump on failure (Xbox / Game Pass path).
 	// Steam = LoadLibraryA only; Xbox = NeacSafe64 only.
-	enum class Platform { Auto, Steam, Xbox };
+	// Experimental = 1.30+ experimental build (same process name, different offsets).
+	enum class Platform { Auto, Steam, Xbox, Experimental };
 	Platform m_Platform = Platform::Auto;
+
+	// True when targeting experimental build (1.30+). Affects expected offsets.
+	bool m_IsExperimental = false;
 
 	// When non-empty, after a successful NeacSafe64 reconstruction we also
 	// write the reconstructed image to this path for static analysis. Set
@@ -162,9 +168,11 @@ private: /* sub setuppatterns here :p */
 
 private:
 	void SetupExtraPatterns();
+	void Setup130ExperimentalPatterns();
 	bool SetupPatterns();
 
 public:
+	void Apply130ExperimentalFallbacks();
 	bool Init();
 	bool Scan();
 	bool Release();

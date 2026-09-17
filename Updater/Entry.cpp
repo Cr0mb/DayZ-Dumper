@@ -4,12 +4,14 @@ Updater* g_Updater = new Updater;
 
 static void PrintUsage() {
 	printf(
-		"Usage: Updater.exe [--steam | --xbox] [--save-pe <path>] [<pe_path>]\n"
+		"Usage: Updater.exe [--steam | --xbox | --exp] [--save-pe <path>] [<pe_path>]\n"
 		"  (no args)         auto-detect: LoadLibraryA the running DayZ_x64.exe;\n"
 		"                    if that fails (Game Pass build), reconstruct the\n"
 		"                    image via NeacSafe64 minifilter.\n"
 		"  --steam           force LoadLibraryA path; abort on failure.\n"
 		"  --xbox            force NeacSafe64 live-memory dump (Game Pass binaries).\n"
+		"  --exp             target DayZ Experimental build (1.30+). Auto-detected\n"
+		"                    when window title is 'DayZ Exp'.\n"
 		"  --save-pe <path>  after a NeacSafe64 reconstruction, also write the\n"
 		"                    reconstructed image to <path> for static analysis.\n"
 		"  <pe_path>         LoadLibraryA the given .exe directly (no live game).\n"
@@ -25,6 +27,12 @@ int main(int argc, char** argv) {
 		if (!_stricmp(a, "--steam"))      { g_Updater->m_Platform = Updater::Platform::Steam; continue; }
 		if (!_stricmp(a, "--xbox") ||
 			!_stricmp(a, "--gamepass"))   { g_Updater->m_Platform = Updater::Platform::Xbox;  continue; }
+		if (!_stricmp(a, "--exp") ||
+			!_stricmp(a, "--experimental")) {
+			g_Updater->m_Platform = Updater::Platform::Experimental;
+			g_Updater->m_IsExperimental = true;
+			continue;
+		}
 		if (!_stricmp(a, "--save-pe")) {
 			if (i + 1 >= argc) { printf("[UPDATER] --save-pe requires a path argument\n"); return 0; }
 			const char* p = argv[++i];
@@ -46,9 +54,18 @@ int main(int argc, char** argv) {
 	}
 
 	switch (g_Updater->m_Platform) {
-		case Updater::Platform::Steam: printf("[UPDATER] platform = STEAM (forced)\n"); break;
-		case Updater::Platform::Xbox:  printf("[UPDATER] platform = XBOX / Game Pass (forced)\n"); break;
-		default:                        printf("[UPDATER] platform = AUTO (LoadLibraryA -> NeacSafe64 fallback)\n"); break;
+		case Updater::Platform::Steam:        printf("[UPDATER] platform = STEAM (forced)\n"); break;
+		case Updater::Platform::Xbox:         printf("[UPDATER] platform = XBOX / Game Pass (forced)\n"); break;
+		case Updater::Platform::Experimental: printf("[UPDATER] platform = EXPERIMENTAL (1.30+)\n"); break;
+		default:                              printf("[UPDATER] platform = AUTO (LoadLibraryA -> NeacSafe64 fallback)\n"); break;
+	}
+
+	// Auto-detect experimental by checking for "DayZ Exp" window
+	if (g_Updater->m_Platform == Updater::Platform::Auto && !g_Updater->m_IsExperimental) {
+		if (FindWindowA(NULL, "DayZ Exp")) {
+			g_Updater->m_IsExperimental = true;
+			printf("[UPDATER] Detected DayZ Experimental (1.30+)\n");
+		}
 	}
 
 	// Open the tee log file (next to Updater.exe) BEFORE any work so every
@@ -67,6 +84,11 @@ int main(int argc, char** argv) {
 		TLOG("[UPDATER] Scanning Failed!\n");
 		teelog::Close();
 		return 1;
+	}
+
+	// Apply fallback values for experimental builds where patterns fail
+	if (g_Updater->m_IsExperimental) {
+		g_Updater->Apply130ExperimentalFallbacks();
 	}
 
 	bool allHit = g_Updater->Release();
