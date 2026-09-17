@@ -1,21 +1,154 @@
-# DayZ-Dumper_v15 dump.log — 2026-09-13 18:33:48
+# DayZ-Dumper_v15 dump.log — 2026-09-17 16:22:56
 # log file: D:\GHax Labs\GHaxLabs\DayZ\Dumper\x64\Release\dump.log
 # tee'd from stdout in real time
+[UPDATER] [FALLBACK] Modbase::World -> 0x4262FE8
+[UPDATER] [FALLBACK] Camera::ViewMatrix -> 0x4
+[UPDATER] [FALLBACK] Camera::ProjectionD2 -> 0xDC
+[UPDATER] [FALLBACK] Entity::IsDead -> 0xE2
+[UPDATER] [FALLBACK] Animation::MatrixArray -> 0xBE8
+[UPDATER] [FALLBACK] Animation::MatrixB -> 0x54
+[UPDATER] [FALLBACK] Skeleton::AnimClass2 -> 0x90
+[UPDATER] [FALLBACK] Inventory::NestedCargo -> 0x178
+[UPDATER] [FALLBACK] World::Grass -> 0xC10
+[UPDATER] [FALLBACK] World::ItemList -> 0xB70
+[UPDATER] [FALLBACK] World::WeatherController -> 0x2A60
+[UPDATER] [FALLBACK] Ammo::AirFriction -> 0x90
+[UPDATER] [FALLBACK] Ammo::Caliber -> 0x3C0
+[UPDATER] [FALLBACK] Ammo::Dispersion -> 0x3CC
+[UPDATER] [FALLBACK] Ammo::FuseDistance -> 0x98
+[UPDATER] [FALLBACK] Ammo::Hit -> 0x3C8
+[UPDATER] [FALLBACK] Ammo::MagazineAmmoCount -> 0x44
+[UPDATER] [FALLBACK] Ammo::MagazineCapacityA -> 0x6B0
+[UPDATER] [FALLBACK] Ammo::MagazineCapacityB -> 0x6B4
+[UPDATER] [FALLBACK] AmmoType::AirFriction -> 0x398
+[UPDATER] [FALLBACK] AmmoType::CoefGravity -> 0x3A8
+[UPDATER] [FALLBACK] AmmoType::Dispersion -> 0x3A4
+[UPDATER] [FALLBACK] Magazine::MaxAmmo -> 0x3A4
+[UPDATER] [FALLBACK] Weapon::AmmoCapacityB -> 0x6B4
+[UPDATER] [FALLBACK] Weapon::AmmoMagCount -> 0x6AC
+[UPDATER] [FALLBACK] Weapon::AttachmentsSize -> 0x8
+[UPDATER] [FALLBACK] Weapon::ChamberArray -> 0x1B8
+[UPDATER] [FALLBACK] Human::IsDead -> 0xE2
+[UPDATER] [FALLBACK] Human::LodShape -> 0x1A8
+[UPDATER] [FALLBACK] Human::Quality -> 0x30
+[UPDATER] [FALLBACK] HumanType::CategoryName -> 0x510
+[UPDATER] [FALLBACK] HumanType::CleanName -> 0x518
+[UPDATER] [FALLBACK] HumanType::ObjectName -> 0x508
+[UPDATER] [FALLBACK] HumanType::Realclassname -> 0x500
+[UPDATER] [FALLBACK] Player::Skeleton -> 0x7E0
+[UPDATER] [FALLBACK] Player::StatsContainer -> 0x6D0
+[UPDATER] [FALLBACK] Infected::Skeleton -> 0x670
+[UPDATER] [FALLBACK] VisualState::Transform -> 0x8
+[UPDATER] [FALLBACK] Entity::isHandItemValid -> 0x1CC
+[UPDATER] [FALLBACK] Entity::EntityDead -> 0xE2
+[UPDATER] [FALLBACK] Network::Crosshair -> 0xA0
+[UPDATER] [FALLBACK] Network::ManagerNetworkClient -> 0x8
+[UPDATER] [FALLBACK] Object_layout::HiddenSelectionState -> 0x8
+[UPDATER] [FALLBACK] Object_layout::MaterialCount -> 0x10
+[UPDATER] [FALLBACK] InventoryItem::ItemInventory -> 0x8
+[UPDATER] [FALLBACK] World::BulletCount -> 0x2080
+[UPDATER] [FALLBACK] World::BulletListSize -> 0x8
+[UPDATER] [FALLBACK] World::DayTime -> 0x29C8
+[UPDATER] [FALLBACK] World::EyeAccom -> 0x10
+[UPDATER] [FALLBACK] World::FarTableSize -> 0x8
+[UPDATER] [FALLBACK] World::Hour -> 0x29D0
+[UPDATER] [FALLBACK] World::ItemListSize -> 0x8
+[UPDATER] [FALLBACK] World::SlowTableSize -> 0x8
+[UPDATER] [FALLBACK] Modbase::FovBase -> 0x100A7D8
+[UPDATER] [FALLBACK] Modbase::Landscape -> 0x4264048
+[UPDATER] [FALLBACK] Modbase::ScopeFovCtx -> 0x1008CE0
+[UPDATER] [FALLBACK] Functions::Camera_Func -> 0x4B6B00
+[UPDATER] [FALLBACK] Functions::DamageSystem_Apply -> 0x482B6A
+[UPDATER] [FALLBACK] Functions::DamageSystem_GetHealth -> 0x429C10
+[UPDATER] [FALLBACK] Functions::DamageSystem_VTEntry -> 0x7B89E0
+[UPDATER] [FALLBACK] Functions::DayZInfected_Update -> 0x4AC490
+[UPDATER] [FALLBACK] Functions::DayZPlayer_Method -> 0x500F80
+[UPDATER] [FALLBACK] Functions::DayZPlayer_Update1 -> 0x4E5670
+[UPDATER] [FALLBACK] Functions::DayZPlayer_Update2 -> 0x4F22B0
+[UPDATER] [FALLBACK] Functions::DirtyInvalidate -> 0x45B0F0
+[UPDATER] [FALLBACK] Functions::DirtyInvalidateArea1 -> 0x7BC2D0
+[UPDATER] [FALLBACK] Functions::DirtyInvalidateHelper1 -> 0x465D70
+[UPDATER] [FALLBACK] Functions::DirtyInvalidateHelper4 -> 0x46B280
+[UPDATER] [FALLBACK] Functions::HealthCalc_8 -> 0x780750
+[UPDATER] [FALLBACK] Functions::Health_Calc -> 0x42B670
+[UPDATER] [FALLBACK] Functions::Health_Clamp -> 0x4227D0
+[UPDATER] [FALLBACK] Functions::Health_Damage -> 0x427DD0
+[UPDATER] [FALLBACK] Functions::Health_GetMax -> 0x4217B0
+[UPDATER] [FALLBACK] Functions::Health_Heal -> 0x428B80
+[UPDATER] [FALLBACK] Functions::Health_Tick -> 0x429E10
+[UPDATER] [FALLBACK] Functions::Health_Update -> 0x429844
+[UPDATER] [FALLBACK] Functions::InputController_Method -> 0x518E10
+[UPDATER] [FALLBACK] Functions::LoadMaterial -> 0x969A90
+[UPDATER] [FALLBACK] Functions::LoadOrCreateMaterial -> 0x96BD30
+[UPDATER] [FALLBACK] Functions::Mat_Func2 -> 0x983FA0
+[UPDATER] [FALLBACK] Functions::Mat_Func3 -> 0x986E60
+[UPDATER] [FALLBACK] Functions::Mat_Func5 -> 0x9A7EC0
+[UPDATER] [FALLBACK] Functions::MaterialArenaAlloc -> 0xBE7200
+[UPDATER] [FALLBACK] Functions::MaterialTableFind2 -> 0x26F780
+[UPDATER] [FALLBACK] Functions::Material_Func1 -> 0x2805BB
+[UPDATER] [FALLBACK] Functions::SetMaterialSlot -> 0x478B70
+[UPDATER] [FALLBACK] Functions::SetObjectMaterial -> 0x478BE0
+[UPDATER] [FALLBACK] Functions::SetObjectTexture -> 0x4790C4
+[UPDATER] [FALLBACK] Functions::MidA_Func1 -> 0x354B50
+[UPDATER] [FALLBACK] Functions::MidA_Func2 -> 0x356470
+[UPDATER] [FALLBACK] Functions::MidA_Func3 -> 0x36E1D0
+[UPDATER] [FALLBACK] Functions::MidA_Func4 -> 0x375470
+[UPDATER] [FALLBACK] Functions::MidB_Func1 -> 0x441980
+[UPDATER] [FALLBACK] Functions::MidB_Func4 -> 0x450010
+[UPDATER] [FALLBACK] Functions::Net_Func1 -> 0xAB040
+[UPDATER] [FALLBACK] Functions::Net_Func2 -> 0xABEC0
+[UPDATER] [FALLBACK] Functions::Net_Func3 -> 0xABF70
+[UPDATER] [FALLBACK] Functions::Net_Func4 -> 0xABFC0
+[UPDATER] [FALLBACK] Functions::Net_Func5 -> 0xAC200
+[UPDATER] [FALLBACK] Functions::Net_Func6 -> 0xAC2B0
+[UPDATER] [FALLBACK] Functions::Net_Func7 -> 0xAC340
+[UPDATER] [FALLBACK] Functions::NetworkStateDispatcher -> 0xC3A80
+[UPDATER] [FALLBACK] Functions::OVS_Func5 -> 0x7FF9F0
+[UPDATER] [FALLBACK] Functions::OVS_VT1_SmallSub -> 0x712670
+[UPDATER] [FALLBACK] Functions::OVS_VT1_Subtract -> 0x712680
+[UPDATER] [FALLBACK] Functions::OVS_VT2_Delegator -> 0x7126A0
+[UPDATER] [FALLBACK] Functions::OVS_VT2_LargeFrame -> 0x712700
+[UPDATER] [FALLBACK] Functions::PhysicsRaycast -> 0x912EC0
+[UPDATER] [FALLBACK] Functions::PostPhys_Func1 -> 0xBA4F90
+[UPDATER] [FALLBACK] Functions::PostPhys_Func4 -> 0x954170
+[UPDATER] [FALLBACK] Functions::RefcountRelease -> 0xBE3BE0
+[UPDATER] [FALLBACK] Functions::StringAllocator -> 0x270F00
+[UPDATER] [FALLBACK] Functions::RegionA_Func1 -> 0xD1000
+[UPDATER] [FALLBACK] Functions::RegionA_Func2 -> 0xD1FD0
+[UPDATER] [FALLBACK] Functions::RegionA_Func3 -> 0xD3420
+[UPDATER] [FALLBACK] Functions::RegionB_Func1 -> 0x1412A0
+[UPDATER] [FALLBACK] Functions::RegionB_Func3 -> 0x144150
+[UPDATER] [FALLBACK] Functions::RegionD_Func1 -> 0x501D50
+[UPDATER] [FALLBACK] Functions::RegionE_Func1 -> 0x602110
+[UPDATER] [FALLBACK] Functions::RegionF_Func1 -> 0x8016C0
+[UPDATER] [FALLBACK] Functions::RegionF_Func2 -> 0x801970
+[UPDATER] [FALLBACK] Functions::RegionH_Func2 -> 0xAD53D0
+[UPDATER] [FALLBACK] Functions::Script_Func2 -> 0x31C390
+[UPDATER] [FALLBACK] Functions::Unknown_Func1 -> 0x73F090
+[UPDATER] [FALLBACK] Functions::VisA_Func1 -> 0x70B480
+[UPDATER] [FALLBACK] Functions::VisA_Func2 -> 0x709D60
+[UPDATER] [FALLBACK] Functions::VisA_Func3 -> 0x71DB00
+[UPDATER] [FALLBACK] Functions::VisA_Func4 -> 0x7226B0
+[UPDATER] [FALLBACK] Functions::VisA_Func5 -> 0x72C290
+[UPDATER] [FALLBACK] Functions::VisB_Func1 -> 0x735CE0
+[UPDATER] [FALLBACK] Functions::VisB_Func2 -> 0x73AB20
+[UPDATER] [FALLBACK] Functions::VisB_Func5 -> 0x77FE90
+[UPDATER] [FALLBACK] Functions::Early_Func1 -> 0x42CF0
 [UPDATER] === RESOLVED (305) ===
 [UPDATER] Ammo::AirFriction                    -> 0x90
 [UPDATER] Ammo::Caliber                        -> 0x3C0
 [UPDATER] Ammo::Dispersion                     -> 0x3CC
-[UPDATER] Ammo::FuseDistance                   -> 0x3AC
-[UPDATER] Ammo::Hit                            -> 0x370
-[UPDATER] Ammo::InitSpeed                      -> 0x38C
-[UPDATER] Ammo::MagazineAmmoCount              -> 0x6AC
+[UPDATER] Ammo::FuseDistance                   -> 0x98
+[UPDATER] Ammo::Hit                            -> 0x3C8
+[UPDATER] Ammo::InitSpeed                      -> 0xA0
+[UPDATER] Ammo::MagazineAmmoCount              -> 0x44
 [UPDATER] Ammo::MagazineCapacityA              -> 0x6B0
 [UPDATER] Ammo::MagazineCapacityB              -> 0x6B4
-[UPDATER] AmmoType::AirFriction                -> 0x3B4
-[UPDATER] AmmoType::CoefGravity                -> 0x3BC
+[UPDATER] AmmoType::AirFriction                -> 0x398
+[UPDATER] AmmoType::CoefGravity                -> 0x3A8
 [UPDATER] AmmoType::DamageBarrel               -> 0x418
 [UPDATER] AmmoType::Dispersion                 -> 0x3A4
-[UPDATER] AmmoType::InitSpeed                  -> 0x38C
+[UPDATER] AmmoType::InitSpeed                  -> 0xA0
 [UPDATER] AmmoType::JamChance                  -> 0x420
 [UPDATER] AmmoType::MaxLeadSpeed               -> 0x394
 [UPDATER] AmmoType::SimulationStep             -> 0x3B8
@@ -32,280 +165,280 @@
 [UPDATER] DayZInfected::Skeleton               -> 0x670
 [UPDATER] DayZPlayer::Inventory                -> 0x650
 [UPDATER] DayZPlayer::Skeleton                 -> 0x7E0
-[UPDATER] DayZPlayerInventory::Hands           -> 0x1B0
-[UPDATER] Entity::EntityDead                   -> 0x15D
+[UPDATER] DayZPlayerInventory::Hands           -> 0x190
+[UPDATER] Entity::EntityDead                   -> 0xE2
 [UPDATER] Entity::FutureVisualState            -> 0x120
 [UPDATER] Entity::IsDead                       -> 0xE2
-[UPDATER] Entity::NetworkId                    -> 0x6DC
+[UPDATER] Entity::NetworkId                    -> 0x684
 [UPDATER] Entity::Owner                        -> 0xA0
 [UPDATER] Entity::SortObject                   -> 0x228
-[UPDATER] Entity::SprintFlag                   -> 0x3AD
+[UPDATER] Entity::SprintFlag                   -> 0x345
 [UPDATER] Entity::Stamina                      -> 0x6A4
 [UPDATER] Entity::Type                         -> 0x180
-[UPDATER] Entity::VisualState                  -> 0x1C8
+[UPDATER] Entity::VisualState                  -> 0x158
 [UPDATER] Entity::isHandItemValid              -> 0x1CC
-[UPDATER] Freecam::DebugCamInstance            -> 0xFE9AF0
-[UPDATER] Functions::AllocateCollisionBuffer   -> 0x97850
-[UPDATER] Functions::BloodMax_Func             -> 0x10E080
-[UPDATER] Functions::Blood_Func                -> 0x4A85A0
-[UPDATER] Functions::BufferGrow                -> 0x1F2D0
-[UPDATER] Functions::Camera_Func               -> 0x3E8570
-[UPDATER] Functions::DamageSystem_Apply        -> 0x481F7A
-[UPDATER] Functions::DamageSystem_GetHealth    -> 0x429160
-[UPDATER] Functions::DamageSystem_VTEntry      -> 0x7B8160
-[UPDATER] Functions::DayZInfected_GetName      -> 0x55AC0
-[UPDATER] Functions::DayZInfected_Method       -> 0x557D0
-[UPDATER] Functions::DayZInfected_Update       -> 0x42F850
-[UPDATER] Functions::DayZPlayer_GetName        -> 0x55AC0
-[UPDATER] Functions::DayZPlayer_Method         -> 0x500520
-[UPDATER] Functions::DayZPlayer_Update1        -> 0x4E4C10
-[UPDATER] Functions::DayZPlayer_Update2        -> 0x4F1850
-[UPDATER] Functions::DirtyInvalidate           -> 0x716220
-[UPDATER] Functions::DirtyInvalidateArea1      -> 0x7BB740
-[UPDATER] Functions::DirtyInvalidateHelper1    -> 0x465310
-[UPDATER] Functions::DirtyInvalidateHelper2    -> 0x87F20
-[UPDATER] Functions::DirtyInvalidateHelper3    -> 0xA1D80
-[UPDATER] Functions::DirtyInvalidateHelper4    -> 0x46A820
+[UPDATER] Freecam::DebugCamInstance            -> 0x1704A18
+[UPDATER] Functions::AllocateCollisionBuffer   -> 0x58F8F0
+[UPDATER] Functions::BloodMax_Func             -> 0x42FA60
+[UPDATER] Functions::Blood_Func                -> 0xA29880
+[UPDATER] Functions::BufferGrow                -> 0x11D450
+[UPDATER] Functions::Camera_Func               -> 0x4B6B00
+[UPDATER] Functions::DamageSystem_Apply        -> 0x482B6A
+[UPDATER] Functions::DamageSystem_GetHealth    -> 0x429C10
+[UPDATER] Functions::DamageSystem_VTEntry      -> 0x7B89E0
+[UPDATER] Functions::DayZInfected_GetName      -> 0x182800
+[UPDATER] Functions::DayZInfected_Method       -> 0x17E080
+[UPDATER] Functions::DayZInfected_Update       -> 0x4AC490
+[UPDATER] Functions::DayZPlayer_GetName        -> 0x182800
+[UPDATER] Functions::DayZPlayer_Method         -> 0x500F80
+[UPDATER] Functions::DayZPlayer_Update1        -> 0x4E5670
+[UPDATER] Functions::DayZPlayer_Update2        -> 0x4F22B0
+[UPDATER] Functions::DirtyInvalidate           -> 0x45B0F0
+[UPDATER] Functions::DirtyInvalidateArea1      -> 0x7BC2D0
+[UPDATER] Functions::DirtyInvalidateHelper1    -> 0x465D70
+[UPDATER] Functions::DirtyInvalidateHelper2    -> 0x770600
+[UPDATER] Functions::DirtyInvalidateHelper3    -> 0x2B98E0
+[UPDATER] Functions::DirtyInvalidateHelper4    -> 0x46B280
 [UPDATER] Functions::Early_Func1               -> 0x42CF0
-[UPDATER] Functions::Early_Func2               -> 0x6AC70
-[UPDATER] Functions::Early_Func3               -> 0x6CF90
-[UPDATER] Functions::Early_Func4               -> 0x76D20
-[UPDATER] Functions::Early_Func5               -> 0xAA1B0
-[UPDATER] Functions::FilterIgnoreTwo_Init      -> 0x4B6C80
-[UPDATER] Functions::FindClassByName           -> 0x31ED60
-[UPDATER] Functions::FreeCollisionBuffer       -> 0x97BE0
-[UPDATER] Functions::GetObjectMaterial         -> 0x472D40
-[UPDATER] Functions::GetObjectTexture          -> 0x472DF0
-[UPDATER] Functions::HealthCalc_1              -> 0x956C0
-[UPDATER] Functions::HealthCalc_10             -> 0x88020
-[UPDATER] Functions::HealthCalc_11             -> 0xAFC550
-[UPDATER] Functions::HealthCalc_2              -> 0x1B8F00
-[UPDATER] Functions::HealthCalc_3              -> 0x337BA0
-[UPDATER] Functions::HealthCalc_4              -> 0x388E20
-[UPDATER] Functions::HealthCalc_5              -> 0x96E20
-[UPDATER] Functions::HealthCalc_6              -> 0x88020
-[UPDATER] Functions::HealthCalc_7              -> 0x420B60
-[UPDATER] Functions::HealthCalc_8              -> 0x77FBC0
-[UPDATER] Functions::HealthCalc_9              -> 0x79B8A0
-[UPDATER] Functions::Health_Calc               -> 0x42ABC0
-[UPDATER] Functions::Health_Clamp              -> 0x421D20
-[UPDATER] Functions::Health_Damage             -> 0x427320
-[UPDATER] Functions::Health_GetMax             -> 0x420D00
-[UPDATER] Functions::Health_GetPercent         -> 0x422230
-[UPDATER] Functions::Health_Heal               -> 0x4280D0
-[UPDATER] Functions::Health_Internal           -> 0x8171E0
-[UPDATER] Functions::Health_Regen              -> 0x425900
-[UPDATER] Functions::Health_SetValue           -> 0x421AA0
-[UPDATER] Functions::Health_Tick               -> 0x429360
-[UPDATER] Functions::Health_Update             -> 0x428D94
-[UPDATER] Functions::InfectedHelper1           -> 0x4AB6C0
-[UPDATER] Functions::InfectedHelper2           -> 0x4AB6F0
-[UPDATER] Functions::InnerDestructor           -> 0x62F47
-[UPDATER] Functions::InputController_GetName   -> 0x55AC0
-[UPDATER] Functions::InputController_Method    -> 0x42F850
-[UPDATER] Functions::InterlockedDecHelper      -> 0x88AB0
-[UPDATER] Functions::Inventory_GetName         -> 0x55AC0
-[UPDATER] Functions::Late_Func1                -> 0xB43080
-[UPDATER] Functions::Late_Func2                -> 0xB5F970
-[UPDATER] Functions::Late_Func3                -> 0xB967E0
-[UPDATER] Functions::Late_Func4                -> 0xBB4CA0
-[UPDATER] Functions::Late_Func5                -> 0xBE8416
-[UPDATER] Functions::LoadMaterial              -> 0x969A50
-[UPDATER] Functions::LoadOrCreateMaterial      -> 0x96BCF0
-[UPDATER] Functions::Mat_Func1                 -> 0x979DF0
-[UPDATER] Functions::Mat_Func2                 -> 0x983F60
-[UPDATER] Functions::Mat_Func3                 -> 0x986E20
-[UPDATER] Functions::Mat_Func4                 -> 0x99A220
-[UPDATER] Functions::Mat_Func5                 -> 0x9A7E80
-[UPDATER] Functions::MaterialArenaAlloc        -> 0xBE7710
-[UPDATER] Functions::MaterialReloadHelper      -> 0x44A5C0
-[UPDATER] Functions::MaterialResolve           -> 0x144140
-[UPDATER] Functions::MaterialTableAlloc        -> 0x47D60
-[UPDATER] Functions::MaterialTableFind2        -> 0x474890
-[UPDATER] Functions::Material_Func1            -> 0x151D45
-[UPDATER] Functions::Material_Func2            -> 0x1DF1D0
-[UPDATER] Functions::Material_GetName          -> 0x557D0
-[UPDATER] Functions::MidA_Func1                -> 0x3540A0
-[UPDATER] Functions::MidA_Func2                -> 0x3559C0
-[UPDATER] Functions::MidA_Func3                -> 0x36D720
-[UPDATER] Functions::MidA_Func4                -> 0x3749C0
-[UPDATER] Functions::MidA_Func5                -> 0x37A910
-[UPDATER] Functions::MidB_Func1                -> 0x440EE0
-[UPDATER] Functions::MidB_Func2                -> 0x4441B0
-[UPDATER] Functions::MidB_Func3                -> 0x44F590
-[UPDATER] Functions::MidB_Func4                -> 0x44F5A0
-[UPDATER] Functions::MidB_Func5                -> 0x45F500
-[UPDATER] Functions::Net_Func1                 -> 0xAA440
-[UPDATER] Functions::Net_Func10                -> 0xABEE0
-[UPDATER] Functions::Net_Func11                -> 0xABF20
-[UPDATER] Functions::Net_Func12                -> 0xABFA0
-[UPDATER] Functions::Net_Func13                -> 0xABFF0
-[UPDATER] Functions::Net_Func14                -> 0xAC050
-[UPDATER] Functions::Net_Func15                -> 0xAC0D0
-[UPDATER] Functions::Net_Func2                 -> 0xAB2C0
-[UPDATER] Functions::Net_Func3                 -> 0xAB370
-[UPDATER] Functions::Net_Func4                 -> 0xAB3C0
-[UPDATER] Functions::Net_Func5                 -> 0xAB600
-[UPDATER] Functions::Net_Func6                 -> 0xAB6B0
-[UPDATER] Functions::Net_Func7                 -> 0xAB740
-[UPDATER] Functions::Net_Func8                 -> 0xAB940
-[UPDATER] Functions::Net_Func9                 -> 0xAB9F0
-[UPDATER] Functions::NetworkStateDispatcher    -> 0xC2E80
-[UPDATER] Functions::OVS_Func1                 -> 0x7B35A0
-[UPDATER] Functions::OVS_Func2                 -> 0x7BD7A0
-[UPDATER] Functions::OVS_Func3                 -> 0x7BD7B0
-[UPDATER] Functions::OVS_Func4                 -> 0x7F25C0
-[UPDATER] Functions::OVS_Func5                 -> 0x7FF1D0
-[UPDATER] Functions::OVS_VT1_Compare           -> 0x9235A0
-[UPDATER] Functions::OVS_VT1_Construct         -> 0x52FF0
-[UPDATER] Functions::OVS_VT1_CopyFields        -> 0x930370
-[UPDATER] Functions::OVS_VT1_FullInit          -> 0x925FB0
-[UPDATER] Functions::OVS_VT1_InitCopy          -> 0x9306A0
-[UPDATER] Functions::OVS_VT1_InitZero          -> 0x729E50
-[UPDATER] Functions::OVS_VT1_Noop              -> 0x58C20
-[UPDATER] Functions::OVS_VT1_NullCheck         -> 0x53B80
-[UPDATER] Functions::OVS_VT1_SmallSub          -> 0x7B69A4
-[UPDATER] Functions::OVS_VT1_Subtract          -> 0x7B6F10
-[UPDATER] Functions::OVS_VT1_TransformCopy     -> 0x930220
-[UPDATER] Functions::OVS_VT2_ComplexInit       -> 0x7B8D90
-[UPDATER] Functions::OVS_VT2_Delegator         -> 0x7B6B00
-[UPDATER] Functions::OVS_VT2_FlagSet           -> 0x7B7FE0
-[UPDATER] Functions::OVS_VT2_LargeFrame        -> 0x7B6EC0
-[UPDATER] Functions::OVS_VT2_Wrapper1          -> 0x57940
-[UPDATER] Functions::OVS_VT2_Wrapper2          -> 0x57940
-[UPDATER] Functions::OVS_VT2_Wrapper3          -> 0x57940
-[UPDATER] Functions::OVS_VT2_Wrapper4          -> 0x57940
-[UPDATER] Functions::OVS_VT2_Wrapper5          -> 0x57940
-[UPDATER] Functions::OVS_VT2_Wrapper6          -> 0x57940
-[UPDATER] Functions::PhysicsAdj_Func1          -> 0x911DE0
-[UPDATER] Functions::PhysicsRaycast            -> 0x912840
-[UPDATER] Functions::PostPhys_Func1            -> 0xBA49B0
-[UPDATER] Functions::PostPhys_Func2            -> 0x949250
-[UPDATER] Functions::PostPhys_Func3            -> 0x94D0A0
-[UPDATER] Functions::PostPhys_Func4            -> 0x953640
-[UPDATER] Functions::PostPhys_Func5            -> 0x260DB0
-[UPDATER] Functions::RefcountDecHelper         -> 0x8A4C0
-[UPDATER] Functions::RefcountRelease           -> 0x33A410
-[UPDATER] Functions::RegionA_Func1             -> 0xD0400
-[UPDATER] Functions::RegionA_Func2             -> 0xD13D0
-[UPDATER] Functions::RegionA_Func3             -> 0xD2820
-[UPDATER] Functions::RegionB_Func1             -> 0x1406A0
-[UPDATER] Functions::RegionB_Func2             -> 0x141F00
-[UPDATER] Functions::RegionB_Func3             -> 0x143550
-[UPDATER] Functions::RegionC_Func1             -> 0x2005A0
-[UPDATER] Functions::RegionC_Func2             -> 0x2006B0
-[UPDATER] Functions::RegionC_Func3             -> 0x200710
-[UPDATER] Functions::RegionD_Func1             -> 0x501160
-[UPDATER] Functions::RegionD_Func2             -> 0x575D0
-[UPDATER] Functions::RegionD_Func3             -> 0x575D0
-[UPDATER] Functions::RegionE_Func1             -> 0x601520
-[UPDATER] Functions::RegionE_Func2             -> 0x6016D0
-[UPDATER] Functions::RegionE_Func3             -> 0x52FF0
-[UPDATER] Functions::RegionF_Func1             -> 0x800B90
-[UPDATER] Functions::RegionF_Func2             -> 0x800E40
-[UPDATER] Functions::RegionG_Func1             -> 0x9F8460
-[UPDATER] Functions::RegionG_Func2             -> 0xA010C0
-[UPDATER] Functions::RegionG_Func3             -> 0xA010C0
-[UPDATER] Functions::RegionH_Func1             -> 0xAD1450
-[UPDATER] Functions::RegionH_Func2             -> 0xAD48A0
-[UPDATER] Functions::RegionH_Func3             -> 0xAD8D30
-[UPDATER] Functions::Script_Func1              -> 0x31B5A0
-[UPDATER] Functions::Script_Func2              -> 0x31B790
-[UPDATER] Functions::Script_Func3              -> 0xCD090
-[UPDATER] Functions::SendWrapper1              -> 0x54300
-[UPDATER] Functions::SendWrapper2              -> 0x961F0
-[UPDATER] Functions::SetMaterialSlot           -> 0x478110
-[UPDATER] Functions::SetObjectMaterial         -> 0x478180
-[UPDATER] Functions::SetObjectTexture          -> 0x4784D4
-[UPDATER] Functions::StringAllocator           -> 0x2B5010
-[UPDATER] Functions::Unknown_Func1             -> 0x73E810
-[UPDATER] Functions::VisA_Func1                -> 0x70AC00
-[UPDATER] Functions::VisA_Func2                -> 0xDA1E0
-[UPDATER] Functions::VisA_Func3                -> 0x71D280
-[UPDATER] Functions::VisA_Func4                -> 0x721E30
-[UPDATER] Functions::VisA_Func5                -> 0x72BA10
-[UPDATER] Functions::VisB_Func1                -> 0x735460
-[UPDATER] Functions::VisB_Func2                -> 0x73A2A0
-[UPDATER] Functions::VisB_Func3                -> 0x771D40
-[UPDATER] Functions::VisB_Func4                -> 0x77A450
-[UPDATER] Functions::VisB_Func5                -> 0x77F610
-[UPDATER] Functions::VisualStateAccessor       -> 0x55AC0
+[UPDATER] Functions::Early_Func2               -> 0xBE6010
+[UPDATER] Functions::Early_Func3               -> 0x6C45E0
+[UPDATER] Functions::Early_Func4               -> 0x3CFC00
+[UPDATER] Functions::Early_Func5               -> 0x550C10
+[UPDATER] Functions::FilterIgnoreTwo_Init      -> 0xB5A590
+[UPDATER] Functions::FindClassByName           -> 0x265190
+[UPDATER] Functions::FreeCollisionBuffer       -> 0x18E250
+[UPDATER] Functions::GetObjectMaterial         -> 0xA29B73
+[UPDATER] Functions::GetObjectTexture          -> 0xA4D270
+[UPDATER] Functions::HealthCalc_1              -> 0x19AAF0
+[UPDATER] Functions::HealthCalc_10             -> 0x19AAF0
+[UPDATER] Functions::HealthCalc_11             -> 0x56C9F0
+[UPDATER] Functions::HealthCalc_2              -> 0x3497B0
+[UPDATER] Functions::HealthCalc_3              -> 0x238AC0
+[UPDATER] Functions::HealthCalc_4              -> 0x19AAF0
+[UPDATER] Functions::HealthCalc_5              -> 0x2E9D50
+[UPDATER] Functions::HealthCalc_6              -> 0x19AAF0
+[UPDATER] Functions::HealthCalc_7              -> 0xC36880
+[UPDATER] Functions::HealthCalc_8              -> 0x780750
+[UPDATER] Functions::HealthCalc_9              -> 0x570230
+[UPDATER] Functions::Health_Calc               -> 0x42B670
+[UPDATER] Functions::Health_Clamp              -> 0x4227D0
+[UPDATER] Functions::Health_Damage             -> 0x427DD0
+[UPDATER] Functions::Health_GetMax             -> 0x4217B0
+[UPDATER] Functions::Health_GetPercent         -> 0xC37ED0
+[UPDATER] Functions::Health_Heal               -> 0x428B80
+[UPDATER] Functions::Health_Internal           -> 0x7A4500
+[UPDATER] Functions::Health_Regen              -> 0xC3B6F0
+[UPDATER] Functions::Health_SetValue           -> 0xC37740
+[UPDATER] Functions::Health_Tick               -> 0x429E10
+[UPDATER] Functions::Health_Update             -> 0x429844
+[UPDATER] Functions::InfectedHelper1           -> 0xADD1A0
+[UPDATER] Functions::InfectedHelper2           -> 0xADD1A0
+[UPDATER] Functions::InnerDestructor           -> 0x235470
+[UPDATER] Functions::InputController_GetName   -> 0x182800
+[UPDATER] Functions::InputController_Method    -> 0x518E10
+[UPDATER] Functions::InterlockedDecHelper      -> 0x2DADE0
+[UPDATER] Functions::Inventory_GetName         -> 0x182800
+[UPDATER] Functions::Late_Func1                -> 0x10B2A00
+[UPDATER] Functions::Late_Func2                -> 0xD9D110
+[UPDATER] Functions::Late_Func3                -> 0xDD8210
+[UPDATER] Functions::Late_Func4                -> 0xD7E3B0
+[UPDATER] Functions::Late_Func5                -> 0x10D2716
+[UPDATER] Functions::LoadMaterial              -> 0x969A90
+[UPDATER] Functions::LoadOrCreateMaterial      -> 0x96BD30
+[UPDATER] Functions::Mat_Func1                 -> 0x87E120
+[UPDATER] Functions::Mat_Func2                 -> 0x983FA0
+[UPDATER] Functions::Mat_Func3                 -> 0x986E60
+[UPDATER] Functions::Mat_Func4                 -> 0x85F0E0
+[UPDATER] Functions::Mat_Func5                 -> 0x9A7EC0
+[UPDATER] Functions::MaterialArenaAlloc        -> 0xBE7200
+[UPDATER] Functions::MaterialReloadHelper      -> 0x584E50
+[UPDATER] Functions::MaterialResolve           -> 0x241EA0
+[UPDATER] Functions::MaterialTableAlloc        -> 0x12AF00
+[UPDATER] Functions::MaterialTableFind2        -> 0x26F780
+[UPDATER] Functions::Material_Func1            -> 0x2805BB
+[UPDATER] Functions::Material_Func2            -> 0x2C5490
+[UPDATER] Functions::Material_GetName          -> 0x17E080
+[UPDATER] Functions::MidA_Func1                -> 0x354B50
+[UPDATER] Functions::MidA_Func2                -> 0x356470
+[UPDATER] Functions::MidA_Func3                -> 0x36E1D0
+[UPDATER] Functions::MidA_Func4                -> 0x375470
+[UPDATER] Functions::MidA_Func5                -> 0x1E20F0
+[UPDATER] Functions::MidB_Func1                -> 0x441980
+[UPDATER] Functions::MidB_Func2                -> 0x231980
+[UPDATER] Functions::MidB_Func3                -> 0x7047E0
+[UPDATER] Functions::MidB_Func4                -> 0x450010
+[UPDATER] Functions::MidB_Func5                -> 0x54F680
+[UPDATER] Functions::Net_Func1                 -> 0xAB040
+[UPDATER] Functions::Net_Func10                -> 0x5502D0
+[UPDATER] Functions::Net_Func11                -> 0x19AAF0
+[UPDATER] Functions::Net_Func12                -> 0x9A61A0
+[UPDATER] Functions::Net_Func13                -> 0x576A90
+[UPDATER] Functions::Net_Func14                -> 0x576AF0
+[UPDATER] Functions::Net_Func15                -> 0x19AAF0
+[UPDATER] Functions::Net_Func2                 -> 0xABEC0
+[UPDATER] Functions::Net_Func3                 -> 0xABF70
+[UPDATER] Functions::Net_Func4                 -> 0xABFC0
+[UPDATER] Functions::Net_Func5                 -> 0xAC200
+[UPDATER] Functions::Net_Func6                 -> 0xAC2B0
+[UPDATER] Functions::Net_Func7                 -> 0xAC340
+[UPDATER] Functions::Net_Func8                 -> 0x6706C0
+[UPDATER] Functions::Net_Func9                 -> 0x54FDC0
+[UPDATER] Functions::NetworkStateDispatcher    -> 0xC3A80
+[UPDATER] Functions::OVS_Func1                 -> 0x5F1A80
+[UPDATER] Functions::OVS_Func2                 -> 0x827010
+[UPDATER] Functions::OVS_Func3                 -> 0x376DC0
+[UPDATER] Functions::OVS_Func4                 -> 0x7F48C0
+[UPDATER] Functions::OVS_Func5                 -> 0x7FF9F0
+[UPDATER] Functions::OVS_VT1_Compare           -> 0x65D5B0
+[UPDATER] Functions::OVS_VT1_Construct         -> 0x17A8D0
+[UPDATER] Functions::OVS_VT1_CopyFields        -> 0x66B420
+[UPDATER] Functions::OVS_VT1_FullInit          -> 0x6600C0
+[UPDATER] Functions::OVS_VT1_InitCopy          -> 0x66B750
+[UPDATER] Functions::OVS_VT1_InitZero          -> 0x66B270
+[UPDATER] Functions::OVS_VT1_Noop              -> 0x1C9810
+[UPDATER] Functions::OVS_VT1_NullCheck         -> 0x18E2A0
+[UPDATER] Functions::OVS_VT1_SmallSub          -> 0x712670
+[UPDATER] Functions::OVS_VT1_Subtract          -> 0x712680
+[UPDATER] Functions::OVS_VT1_TransformCopy     -> 0x66B2B0
+[UPDATER] Functions::OVS_VT2_ComplexInit       -> 0x5E92E0
+[UPDATER] Functions::OVS_VT2_Delegator         -> 0x7126A0
+[UPDATER] Functions::OVS_VT2_FlagSet           -> 0x5E8340
+[UPDATER] Functions::OVS_VT2_LargeFrame        -> 0x712700
+[UPDATER] Functions::OVS_VT2_Wrapper1          -> 0x18E250
+[UPDATER] Functions::OVS_VT2_Wrapper2          -> 0x18E250
+[UPDATER] Functions::OVS_VT2_Wrapper3          -> 0x18E250
+[UPDATER] Functions::OVS_VT2_Wrapper4          -> 0x18E250
+[UPDATER] Functions::OVS_VT2_Wrapper5          -> 0x18E250
+[UPDATER] Functions::OVS_VT2_Wrapper6          -> 0x18E250
+[UPDATER] Functions::PhysicsAdj_Func1          -> 0x734BC0
+[UPDATER] Functions::PhysicsRaycast            -> 0x912EC0
+[UPDATER] Functions::PostPhys_Func1            -> 0xBA4F90
+[UPDATER] Functions::PostPhys_Func2            -> 0x617EE0
+[UPDATER] Functions::PostPhys_Func3            -> 0x2420A0
+[UPDATER] Functions::PostPhys_Func4            -> 0x954170
+[UPDATER] Functions::PostPhys_Func5            -> 0x5CF8C0
+[UPDATER] Functions::RefcountDecHelper         -> 0x187400
+[UPDATER] Functions::RefcountRelease           -> 0xBE3BE0
+[UPDATER] Functions::RegionA_Func1             -> 0xD1000
+[UPDATER] Functions::RegionA_Func2             -> 0xD1FD0
+[UPDATER] Functions::RegionA_Func3             -> 0xD3420
+[UPDATER] Functions::RegionB_Func1             -> 0x1412A0
+[UPDATER] Functions::RegionB_Func2             -> 0x3EE320
+[UPDATER] Functions::RegionB_Func3             -> 0x144150
+[UPDATER] Functions::RegionC_Func1             -> 0x516690
+[UPDATER] Functions::RegionC_Func2             -> 0x5168C0
+[UPDATER] Functions::RegionC_Func3             -> 0x516920
+[UPDATER] Functions::RegionD_Func1             -> 0x501D50
+[UPDATER] Functions::RegionD_Func2             -> 0x1A34D0
+[UPDATER] Functions::RegionD_Func3             -> 0x1A34D0
+[UPDATER] Functions::RegionE_Func1             -> 0x602110
+[UPDATER] Functions::RegionE_Func2             -> 0x5FBE40
+[UPDATER] Functions::RegionE_Func3             -> 0x17A8D0
+[UPDATER] Functions::RegionF_Func1             -> 0x8016C0
+[UPDATER] Functions::RegionF_Func2             -> 0x801970
+[UPDATER] Functions::RegionG_Func1             -> 0x2C0B10
+[UPDATER] Functions::RegionG_Func2             -> 0xBAE9E0
+[UPDATER] Functions::RegionG_Func3             -> 0xBAE9E0
+[UPDATER] Functions::RegionH_Func1             -> 0x2F9C19
+[UPDATER] Functions::RegionH_Func2             -> 0xAD53D0
+[UPDATER] Functions::RegionH_Func3             -> 0xD26260
+[UPDATER] Functions::Script_Func1              -> 0x270640
+[UPDATER] Functions::Script_Func2              -> 0x31C390
+[UPDATER] Functions::Script_Func3              -> 0x235EA0
+[UPDATER] Functions::SendWrapper1              -> 0x21A470
+[UPDATER] Functions::SendWrapper2              -> 0x84DB80
+[UPDATER] Functions::SetMaterialSlot           -> 0x478B70
+[UPDATER] Functions::SetObjectMaterial         -> 0x478BE0
+[UPDATER] Functions::SetObjectTexture          -> 0x4790C4
+[UPDATER] Functions::StringAllocator           -> 0x270F00
+[UPDATER] Functions::Unknown_Func1             -> 0x73F090
+[UPDATER] Functions::VisA_Func1                -> 0x70B480
+[UPDATER] Functions::VisA_Func2                -> 0x709D60
+[UPDATER] Functions::VisA_Func3                -> 0x71DB00
+[UPDATER] Functions::VisA_Func4                -> 0x7226B0
+[UPDATER] Functions::VisA_Func5                -> 0x72C290
+[UPDATER] Functions::VisB_Func1                -> 0x735CE0
+[UPDATER] Functions::VisB_Func2                -> 0x73AB20
+[UPDATER] Functions::VisB_Func3                -> 0x8A65F0
+[UPDATER] Functions::VisB_Func4                -> 0x342E39
+[UPDATER] Functions::VisB_Func5                -> 0x77FE90
+[UPDATER] Functions::VisualStateAccessor       -> 0x182800
 [UPDATER] Human::HumanType                     -> 0x180
 [UPDATER] Human::IsDead                        -> 0xE2
-[UPDATER] Human::LodShape                      -> 0x200
-[UPDATER] Human::Quality                       -> 0x194
-[UPDATER] Human::VisualState                   -> 0x1C8
-[UPDATER] HumanType::CategoryName              -> 0xD0
+[UPDATER] Human::LodShape                      -> 0x1A8
+[UPDATER] Human::Quality                       -> 0x30
+[UPDATER] Human::VisualState                   -> 0x158
+[UPDATER] HumanType::CategoryName              -> 0x510
 [UPDATER] HumanType::CleanName                 -> 0x518
-[UPDATER] HumanType::ObjectName                -> 0x70
-[UPDATER] HumanType::Realclassname             -> 0xD0
+[UPDATER] HumanType::ObjectName                -> 0x508
+[UPDATER] HumanType::Realclassname             -> 0x500
 [UPDATER] Infected::Skeleton                   -> 0x670
 [UPDATER] Inventory::Hands                     -> 0x1B0
 [UPDATER] Inventory::ItemQuality               -> 0x194
-[UPDATER] Inventory::NestedCargo               -> 0x148
-[UPDATER] Inventory::NestedInventory           -> 0x650
+[UPDATER] Inventory::NestedCargo               -> 0x178
+[UPDATER] Inventory::NestedInventory           -> 0x334
 [UPDATER] Inventory::SlotCountAlt              -> 0x158
-[UPDATER] InventoryItem::ItemInventory         -> 0x650
-[UPDATER] Magazine::AmmoCount                  -> 0x3B0
+[UPDATER] InventoryItem::ItemInventory         -> 0x8
+[UPDATER] Magazine::AmmoCount                  -> 0x348
 [UPDATER] Magazine::MaxAmmo                    -> 0x3A4
-[UPDATER] Modbase::FovBase                     -> 0x9C4
-[UPDATER] Modbase::Landscape                   -> 0x42662E0
-[UPDATER] Modbase::NetworkManager              -> 0x100EBD0
-[UPDATER] Modbase::ScopeFovCtx                 -> 0x42638E0
-[UPDATER] Modbase::Speedhack                   -> 0x347BD4
-[UPDATER] Modbase::Tick                        -> 0xFF3958
+[UPDATER] Modbase::FovBase                     -> 0x100A7D8
+[UPDATER] Modbase::Landscape                   -> 0x4264048
+[UPDATER] Modbase::NetworkManager              -> 0x4A7C1B0
+[UPDATER] Modbase::ScopeFovCtx                 -> 0x1008CE0
+[UPDATER] Modbase::Speedhack                   -> 0x11A074
+[UPDATER] Modbase::Tick                        -> 0x179E0A8
 [UPDATER] Modbase::World                       -> 0x4262FE8
 [UPDATER] Network::ClientIdSize                -> 0x170
 [UPDATER] Network::Crosshair                   -> 0xA0
-[UPDATER] Network::GameVersion                 -> 0x350
-[UPDATER] Network::ManagerNetworkClient        -> 0x50
+[UPDATER] Network::GameVersion                 -> 0x348
+[UPDATER] Network::ManagerNetworkClient        -> 0x8
 [UPDATER] Network::ScoreboardSize              -> 0x24
 [UPDATER] Network::ServerName                  -> 0x308
 [UPDATER] Network::ThirdPersonFlag             -> 0x9C
-[UPDATER] Object_layout::HiddenSelectionState  -> 0x528
+[UPDATER] Object_layout::HiddenSelectionState  -> 0x8
 [UPDATER] Object_layout::MaterialArray         -> 0x558
-[UPDATER] Object_layout::MaterialCount         -> 0x560
+[UPDATER] Object_layout::MaterialCount         -> 0x10
 [UPDATER] Player::DamageManager                -> 0x700
 [UPDATER] Player::InputController              -> 0x7E8
 [UPDATER] Player::Skeleton                     -> 0x7E0
-[UPDATER] Player::StatsContainer               -> 0x6F0
+[UPDATER] Player::StatsContainer               -> 0x6D0
 [UPDATER] PlayerIdentity::Name                 -> 0xB0
 [UPDATER] PlayerStats::RecordValue             -> 0x2C
 [UPDATER] Skeleton::AnimClass2                 -> 0x90
-[UPDATER] VisualState::InverseTransform        -> 0x80
+[UPDATER] VisualState::InverseTransform        -> 0x118
 [UPDATER] VisualState::Transform               -> 0x8
 [UPDATER] Weapon::AmmoCapacityA                -> 0x6B0
 [UPDATER] Weapon::AmmoCapacityB                -> 0x6B4
 [UPDATER] Weapon::AmmoMagCount                 -> 0x6AC
 [UPDATER] Weapon::AttachmentsArray             -> 0x150
-[UPDATER] Weapon::AttachmentsSize              -> 0x15C
-[UPDATER] Weapon::ChamberArray                 -> 0x6A8
+[UPDATER] Weapon::AttachmentsSize              -> 0x8
+[UPDATER] Weapon::ChamberArray                 -> 0x1B8
 [UPDATER] Weapon::ChamberEntrySize             -> 0x100
 [UPDATER] Weapon::ChamberedPtr                 -> 0x1B0
 [UPDATER] Weapon::InitSpeedMultiplier          -> 0x960
-[UPDATER] Weapon::WeaponInfoSize               -> 0x6B4
-[UPDATER] Weapon::WeaponInfoTable              -> 0x6A8
-[UPDATER] World::BulletCount                   -> 0xE08
-[UPDATER] World::BulletList                    -> 0xE00
-[UPDATER] World::BulletListSize                -> 0xE08
-[UPDATER] World::Day                           -> 0x2974
-[UPDATER] World::DayTime                       -> 0x2978
-[UPDATER] World::EyeAccom                      -> 0x296C
-[UPDATER] World::FarEntList                    -> 0x1090
-[UPDATER] World::FarTableSize                  -> 0x1098
-[UPDATER] World::Grass                         -> 0xC00
+[UPDATER] Weapon::WeaponInfoSize               -> 0x634
+[UPDATER] Weapon::WeaponInfoTable              -> 0x628
+[UPDATER] World::BulletCount                   -> 0x2080
+[UPDATER] World::BulletList                    -> 0x2078
+[UPDATER] World::BulletListSize                -> 0x8
+[UPDATER] World::Day                           -> 0x29CC
+[UPDATER] World::DayTime                       -> 0x29C8
+[UPDATER] World::EyeAccom                      -> 0x10
+[UPDATER] World::FarEntList                    -> 0x10B8
+[UPDATER] World::FarTableSize                  -> 0x8
+[UPDATER] World::Grass                         -> 0xC10
 [UPDATER] World::GrassOffline                  -> 0xBF0
 [UPDATER] World::GrassOnline                   -> 0xC00
-[UPDATER] World::Hour                          -> 0x2970
-[UPDATER] World::ItemList                      -> 0x2060
-[UPDATER] World::ItemListSize                  -> 0x2068
-[UPDATER] World::LocalOffset                   -> 0xFFFFFFFFFFFFFF58
+[UPDATER] World::Hour                          -> 0x29D0
+[UPDATER] World::ItemList                      -> 0xB70
+[UPDATER] World::ItemListSize                  -> 0x8
+[UPDATER] World::LocalOffset                   -> 0x48FFFB4F
 [UPDATER] World::LocalPlayer                   -> 0x2960
-[UPDATER] World::NearEntList                   -> 0xF48
+[UPDATER] World::NearEntList                   -> 0xF70
 [UPDATER] World::PlayerOn                      -> 0x2968
 [UPDATER] World::SlowEntList                   -> 0x2010
-[UPDATER] World::SlowTableSize                 -> 0x2018
+[UPDATER] World::SlowTableSize                 -> 0x8
 [UPDATER] World::TimeScale                     -> 0x2970
-[UPDATER] World::WeatherController             -> 0x7460
+[UPDATER] World::WeatherController             -> 0x2A60
 [UPDATER] --- summary: resolved=305 failed=0 total=305 ---
 [UPDATER] Done. all offsets resolved.
